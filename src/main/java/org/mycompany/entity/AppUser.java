@@ -1,8 +1,16 @@
 package org.mycompany.entity;
 
+import javax.annotation.Generated;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDate;
 
+@Entity
 public class AppUser {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String email;
     private String password;
@@ -14,6 +22,9 @@ public class AppUser {
     private String lastName;
     private LocalDate birthDay;
     private Gender gender;
+    private String city;
+    private String education;
+    private String about;
 
     public Long getId() {
         return id;
@@ -85,6 +96,30 @@ public class AppUser {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getEducation() {
+        return education;
+    }
+
+    public void setEducation(String education) {
+        this.education = education;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public String getAbout() {
+        return about;
     }
 
     // custom getter/setter

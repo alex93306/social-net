@@ -4,7 +4,7 @@ import org.mycompany.entity.AppUser;
 
 public interface AppUserDao {
     AppUser get(Long id);
-    Long save(AppUser appUser);
+    AppUser save(AppUser appUser);
     void update(AppUser appUser);
     void remove(Long id);
 

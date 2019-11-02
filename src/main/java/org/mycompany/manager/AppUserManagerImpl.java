@@ -5,6 +5,8 @@ import org.mycompany.entity.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigInteger;
+
 @Component
 public class AppUserManagerImpl implements AppUserManager {
 
@@ -12,7 +14,7 @@ public class AppUserManagerImpl implements AppUserManager {
     private AppUserDao appUserDao;
 
     @Override
-    public Long save(AppUser appUser) {
+    public AppUser save(AppUser appUser) {
         return appUserDao.save(appUser);
     }
 
@@ -36,6 +38,6 @@ public class AppUserManagerImpl implements AppUserManager {
 
     @Override
     public AppUser find(long id) {
-        return null;
+        return appUserDao.get(id);
     }
 }

@@ -9,15 +9,49 @@
 <html>
 <head>
     <title>Title</title>
+    <style>
+        .avatar {
+            background-color: aliceblue;
+            width: 250px;
+            float: left;
+        }
+        .userInfo {
+            background-color: antiquewhite;
+            width: auto;
+            margin-left: 250px;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-    <div>
-        <div>Name</div>
-        <div>${appUser.fullName}</div>
+    <div class="avatar">
+           <div><img src="https://www.drupal.org/files/issues/default-avatar.png"/></div>
+        <div>
+            <a href="/editprofile">Edit Profile</a>
+        </div>
     </div>
-    <div>
-        <div>Birthday</div>
-        <div>${appUser.birthday}</div>
+    <div class="userInfo">
+        <div class="conta">
+            <span>Name: </span>
+            <span>${appUser.fullName}</span>
+        </div>
+        <div>
+            <span>Birthday: </span>
+            <span>${appUser.birthDay}</span>
+        </div>
+        <div>
+            <span>City: </span>
+            <span>${appUser.city}</span>
+        </div>
+        <div>
+            <span>Education: </span>
+            <span>${appUser.education}</span>
+        </div>
+        <div>
+            <span>About: </span>
+            <span>${appUser.about}</span>
+        </div>
     </div>
 </body>
 </html>

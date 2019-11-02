@@ -11,7 +11,6 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan(basePackages = {"org.mycompany.controller", "org.mycompany.dao", "org.mycompany.manager"})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Bean

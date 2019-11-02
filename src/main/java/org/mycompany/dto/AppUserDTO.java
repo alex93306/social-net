@@ -77,4 +77,6 @@ public class AppUserDTO {
     public void setBirthDay(LocalDate birthDay) {
         this.birthDay = birthDay;
     }
+
+
 }

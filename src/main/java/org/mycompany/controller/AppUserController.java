@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
@@ -22,12 +23,12 @@ public class AppUserController {
     @Autowired
     private EmailManager emailManager;
 
-    @GetMapping("/register")
+    @GetMapping("/signup")
     public ModelAndView registerPage() {
-        return new ModelAndView("register");
+        return new ModelAndView("login");
     }
 
-    @PostMapping("/register")
+    @PostMapping("/signup")
     public ModelAndView createAccount(AppUserDTO appUserDTO, BindingResult bindingResult) {
         //todo: validate
 //        if (bindingResult.hasErrors()) {
@@ -46,7 +47,7 @@ public class AppUserController {
         appUserManager.save(appUser);
 
         //todo send email
-        emailManager.sendConfirmMail(appUser.getEmail(), UUID.randomUUID().toString());
+        emailManager.sendConfirmEmail(appUser.getEmail(), UUID.randomUUID().toString());
 
         return new ModelAndView();
     }
@@ -55,6 +56,17 @@ public class AppUserController {
     public String verifyAccount(@PathVariable String verifyKey) {
         appUserManager.verifyAndActivateAccount(verifyKey);//todo: is verify key unique or it should find by id and check
         return null;
+    }
+
+    @GetMapping("/forgot_password")
+    public String showPasswordRecoveryPage() {
+        return "forgotPassword";
+    }
+
+    @PostMapping("/forgot_password")
+    public String resetPassword(@RequestParam String email) {
+        //todo: send email
+        return "page";
     }
 
 
