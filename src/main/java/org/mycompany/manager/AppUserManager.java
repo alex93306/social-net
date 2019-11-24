@@ -10,4 +10,8 @@ public interface AppUserManager {
     void verifyAndActivateAccount(String verifyKey);
 
     AppUser find(long id);
+
+    AppUser findByEmail(String email);
+
+    AppUser findByUUID(String uuid);
 }

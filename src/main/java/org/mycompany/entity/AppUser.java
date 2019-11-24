@@ -1,6 +1,5 @@
 package org.mycompany.entity;
 
-import javax.annotation.Generated;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +14,8 @@ public class AppUser {
     private String email;
     private String password;
 
-    private String verifyKey;
+    // todo: add locale or language
+    private String UUID;
     private boolean active;
 
     private String firstName;
@@ -82,12 +82,12 @@ public class AppUser {
         this.gender = gender;
     }
 
-    public String getVerifyKey() {
-        return verifyKey;
+    public String getUUID() {
+        return UUID;
     }
 
-    public void setVerifyKey(String verifyKey) {
-        this.verifyKey = verifyKey;
+    public void setUUID(String UUID) {
+        this.UUID = UUID;
     }
 
     public boolean isActive() {

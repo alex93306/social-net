@@ -1,11 +1,19 @@
 package org.mycompany.manager;
 
+import org.mycompany.entity.AppUser;
+
 public interface EmailManager {
     void sendEmail(String to, String subject, String message);
 
-    void sendConfirmEmail(String to, String verifyKey);
+    // sendBeforeConfirEmail
+    void sendConfirmEmail(AppUser appUser);
 
-    void sendResetPasswordEmail(String to);
+    // sendBeforePasswordChanged
+    void sendResetPasswordEmail(AppUser appUser);
 
-    void sendPasswordChangedEmail(String to);
+    // sendAfterSuccessPasswordChanged
+    void sendPasswordChangedEmail(AppUser appUser);
+
+    // sendAfterSuccessRegister
+    void sendSuccessRegisterEmail(AppUser appUser);
 }

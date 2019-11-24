@@ -40,4 +40,16 @@ public class AppUserManagerImpl implements AppUserManager {
     public AppUser find(long id) {
         return appUserDao.get(id);
     }
+
+    @Override
+    public AppUser findByEmail(String email) {
+        //todo: implement
+        return null;
+    }
+
+    @Override
+    public AppUser findByUUID(String uuid) {
+        //todo: implement it
+        return null;
+    }
 }

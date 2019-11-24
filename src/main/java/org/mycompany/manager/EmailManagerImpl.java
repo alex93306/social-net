@@ -1,14 +1,22 @@
 package org.mycompany.manager;
 
+import org.mycompany.entity.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 
+import java.util.Locale;
+
 @Component
 public class EmailManagerImpl implements EmailManager {
     @Autowired
+    //todo: maybe rename all classes to Mail instead Email
     private MailSender mailSender;
+
+    @Autowired
+    MessageSource messageSource;
 
     @Override
     public void sendEmail(String to, String subject, String message) {
@@ -21,23 +29,25 @@ public class EmailManagerImpl implements EmailManager {
     }
 
     @Override
-    public void sendConfirmEmail(String to, String verifyKey) {
-        String subject = "Confirmation email";
-
-
-
-        String text = "text";
-        sendEmail(to, subject, text);
-    }
-
-    @Override
-    public void sendResetPasswordEmail(String to) {
+    public void sendConfirmEmail(AppUser appUser) {
 
     }
 
     @Override
-    public void sendPasswordChangedEmail(String to) {
-        String subject = "The password was changed!";
-        sendEmail(to, subject, subject);
+    public void sendResetPasswordEmail(AppUser appUser) {
+        //todo: add locale or language to user instead of using default
+        String subject = messageSource.getMessage("resetPassword.email.subject", new Object[0], Locale.getDefault());
+        String text = "Reset Password text " + appUser.getUUID();
+        sendEmail(appUser.getEmail(), subject, text);
+    }
+
+    @Override
+    public void sendPasswordChangedEmail(AppUser appUser) {
+        //todo: implement
+    }
+
+    @Override
+    public void sendSuccessRegisterEmail(AppUser appUser) {
+        //todo: implement
     }
 }
