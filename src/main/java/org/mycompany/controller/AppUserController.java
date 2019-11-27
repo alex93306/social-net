@@ -1,24 +1,24 @@
 package org.mycompany.controller;
 
 import org.mycompany.dto.AppUserDTO;
-import org.mycompany.dto.NewPasswordDTO;
+import org.mycompany.dto.ChangePasswordForm;
 import org.mycompany.entity.AppUser;
+import org.mycompany.entity.EmailVerificationToken;
+import org.mycompany.entity.ResetPasswordToken;
 import org.mycompany.manager.AppUserManager;
 import org.mycompany.manager.EmailManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 @Controller
 public class AppUserController {
 
+    private static final String LOGIN_VIEW_NAME = "login";
     private static final String FORGOT_PASSWORD_VIEW_NAME = "forgotPassword";
     private static final String REGISTER_VIEW_NAME = "register";
 
@@ -27,7 +27,12 @@ public class AppUserController {
     @Autowired
     private EmailManager emailManager;
 
-    @GetMapping("/register")
+    @GetMapping("/login")
+    public String loginPage() {
+        return LOGIN_VIEW_NAME;
+    }
+
+    @GetMapping(value = "/register")
     public String registerPage() {
         return REGISTER_VIEW_NAME;
     }
@@ -50,78 +55,97 @@ public class AppUserController {
 
         // generate and set UUID. it will use for email verification and reset password
         //todo: shoud we check uuid or it's really unique. Should we check if it's exists. should we send other info beside uuid
-        //todo: add expiration time
-        //todo: maybe it needs to create additional entity verificationToken
-        appUser.setUUID(UUID.randomUUID().toString());
 
         appUserManager.save(appUser);
 
+        EmailVerificationToken verificationToken = appUserManager.createEmailVerificationToken(appUser);
+
         //todo send email
-        emailManager.sendConfirmEmail(appUser);
+        emailManager.sendVerificationEmail(appUser);
 
         return "waitEmailVerification";
     }
 
-    @GetMapping("/verify/{verifyKey}")
-    public String verifyAccount(@PathVariable String verifyKey) {
-        appUserManager.verifyAndActivateAccount(verifyKey);//todo: is verify key unique or it should find by id and check
-        return null;
+    @GetMapping("/verify-email/{verifyToken}")
+    //todo: come up better name method and path variable
+    public String verifyEmail(@PathVariable String verifyToken, BindingResult errors) {
+
+        EmailVerificationToken emailVerificationToken = appUserManager.findEmailVerificationTokenByToken(verifyToken);
+
+        if (emailVerificationToken == null) {
+            //todo:
+            return  null;
+        }
+        if (emailVerificationToken.getExpiryDate().isAfter(LocalDateTime.now())) {
+            //todo:
+            return  null;
+        }
+
+        AppUser appUser = emailVerificationToken.getAppUser();
+        appUser.setActive(true);
+        appUserManager.save(appUser);
+
+        //todo: remove or inactivate token ???
+        //todo: authentificate user
+
+        return "redirect://";
     }
 
-    @GetMapping("/forgot_password")
-    public String showPasswordRecoveryPage() {
+    @GetMapping("/forgotPassword")
+    public String forgotPasswordPage() {
         return FORGOT_PASSWORD_VIEW_NAME;
     }
 
-    @PostMapping("/forgot_password")
-    //todo: RequestParam does it need?
+    @PostMapping("/forgotPassword")
     //todo: default or empty email. think about it
     public String requestResetPassword(@RequestParam String email) {
-//        if (email.isEmpty()) {
-//            return ;
-//        }
-// todo: email validation
+        //todo: validate email
+
+        //todo: capture
 
         AppUser appUser = appUserManager.findByEmail(email);
-        //todo: maybe it's ok to set it during register and don't change it
-        appUser.setUUID(UUID.randomUUID().toString());
-        appUserManager.save(appUser);
+
+        //todo: null or exception
+        if (appUser == null) {
+            throw new RuntimeException("UserNotFound");
+        }
+
+        ResetPasswordToken resetPasswordToken = appUserManager.createResetPasswordToken(appUser);
 
         emailManager.sendResetPasswordEmail(appUser);
         return "waitResetPassword";
     }
 
-
-    @GetMapping("/reset_password")
-    public String newPasswordForm(@RequestParam("uuid") String uuid) {
-        //todo: validate uuid
-        AppUser appUser = appUserManager.findByUUID(uuid);
-        if (appUser != null) {
-            //todo: set uuid or email into form to find user then
-            return "newPassword";
-        } else {
-            return FORGOT_PASSWORD_VIEW_NAME;
+    @GetMapping("/resetPassword")
+    public String newPasswordForm(@RequestParam("token") String token, Model model, BindingResult errors) {
+        AppUser appUser = appUserManager.findByPasswordResetToken(token);
+        if (appUser == null) {
+//            return FORGOT_PASSWORD_VIEW_NAME;
+            //todo:
+            throw new RuntimeException("UserNotFound");
         }
-
-        //todo: remove uuid or not????
+        //todo: invalidate token???
+        model.addAttribute("email", appUser.getEmail());
+        return "newPassword";
     }
 
-    @PostMapping("reset_password")
-    public String resetPassword(NewPasswordDTO newPasswordDTO, BindingResult bindingResult) {
+    @PostMapping("/resetPassword")
+    public String resetPassword(ChangePasswordForm changePasswordForm, BindingResult bindingResult) {
         //todo: validate dto
+        //todo: capture
         if (bindingResult.hasErrors()) {
             return "newPassword";
         }
 
-        AppUser appUser = appUserManager.findByUUID(newPasswordDTO.getUUID());
+        AppUser appUser = appUserManager.findByEmail(changePasswordForm.getEmail());
         //todo: hast password
-        appUser.setPassword(newPasswordDTO.getPassword());
+        appUser.setPassword(changePasswordForm.getPassword());
 
         appUserManager.save(appUser);
 
         emailManager.sendPasswordChangedEmail(appUser);
         //todo: authentificate user
-        //todo: check redirect
+        //todo: redirect constance and check
         return "redirect://";
     }
 

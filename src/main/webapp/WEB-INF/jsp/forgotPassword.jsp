@@ -1,3 +1,5 @@
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: ALEX
@@ -11,7 +13,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="/forgot_password" method="POST">
+    <form action="<s:url value="/forgotPassword"/>" method="POST" >
         <input type="email" name="email" placeholder="Email"/>
         <input type="submit" value="Reset password"/>
     </form>

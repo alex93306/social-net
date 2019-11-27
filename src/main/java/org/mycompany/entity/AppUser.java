@@ -15,8 +15,7 @@ public class AppUser {
     private String password;
 
     // todo: add locale or language
-    private String UUID;
-    private boolean active;
+    private boolean active = false;
 
     private String firstName;
     private String lastName;
@@ -80,14 +79,6 @@ public class AppUser {
 
     public void setGender(Gender gender) {
         this.gender = gender;
-    }
-
-    public String getUUID() {
-        return UUID;
-    }
-
-    public void setUUID(String UUID) {
-        this.UUID = UUID;
     }
 
     public boolean isActive() {

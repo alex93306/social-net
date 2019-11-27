@@ -1,5 +1,6 @@
 package org.mycompany.config;
 
+import org.mycompany.controller.AppUserController;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -14,8 +15,8 @@ import java.util.Properties;
 @Configuration
 //todo: should properties be in package
 @PropertySource("classpath:/email.properties")
-@ComponentScan(basePackages = {"org.mycompany.controller", "org.mycompany.dao", "org.mycompany.manager"})
 public class RootConfig {
+
     @Bean
     public MailSender mailSender(Environment env) {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -42,11 +43,4 @@ public class RootConfig {
         return messageSource;
     }
 
-
-//    @Bean
-//    public LocalEntityManagerFactoryBean entityManagerFactoryBean() {
-//        LocalEntityManagerFactoryBean emfb = new LocalEntityManagerFactoryBean();
-//        emfb.setPersistenceUnitName("socialPU");
-//        return emfb;
-//    }
 }

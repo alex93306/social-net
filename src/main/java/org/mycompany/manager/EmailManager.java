@@ -3,10 +3,12 @@ package org.mycompany.manager;
 import org.mycompany.entity.AppUser;
 
 public interface EmailManager {
-    void sendEmail(String to, String subject, String message);
+    void sendSimpleEmail(String to, String subject, String message);
+
+    void sendTemplateEmail(String to, String subject);
 
     // sendBeforeConfirEmail
-    void sendConfirmEmail(AppUser appUser);
+    void sendVerificationEmail(AppUser appUser);
 
     // sendBeforePasswordChanged
     void sendResetPasswordEmail(AppUser appUser);

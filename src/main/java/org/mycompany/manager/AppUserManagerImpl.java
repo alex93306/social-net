@@ -1,11 +1,15 @@
 package org.mycompany.manager;
 
 import org.mycompany.dao.AppUserDao;
+import org.mycompany.entity.AbstractToken;
 import org.mycompany.entity.AppUser;
+import org.mycompany.entity.EmailVerificationToken;
+import org.mycompany.entity.ResetPasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Component
 public class AppUserManagerImpl implements AppUserManager {
@@ -24,19 +28,6 @@ public class AppUserManagerImpl implements AppUserManager {
     }
 
     @Override
-    public void verifyAndActivateAccount(String verifyKey) {
-        AppUser appUser = appUserDao.findByVerifyKey(verifyKey);
-        if (appUser == null) {
-            throw new RuntimeException("Account can't be activated, because verify key isn't valid");
-        }
-
-        if (!appUser.isActive()) {
-            appUser.setActive(true);
-            appUserDao.save(appUser);
-        }
-    }
-
-    @Override
     public AppUser find(long id) {
         return appUserDao.get(id);
     }
@@ -48,8 +39,45 @@ public class AppUserManagerImpl implements AppUserManager {
     }
 
     @Override
-    public AppUser findByUUID(String uuid) {
+    public AppUser findByPasswordResetToken(String uuid) {
         //todo: implement it
         return null;
+    }
+
+    @Override
+    public EmailVerificationToken findEmailVerificationTokenByToken(String verifyToken) {
+        //todo: implement
+        return null;
+    }
+
+
+    @Override
+    public EmailVerificationToken createEmailVerificationToken(AppUser appUser) {
+        EmailVerificationToken emailVerificationToken = new EmailVerificationToken();
+        emailVerificationToken.setAppUser(appUser);
+        LocalDateTime expiryDate = LocalDateTime.now().plusHours(24);
+        emailVerificationToken.setExpiryDate(expiryDate);
+        String token = UUID.randomUUID().toString();
+        emailVerificationToken.setToken(token);
+
+        //todo: implement
+//        emailVerificationTokenDao.save(emailVerificationToken);
+
+        return emailVerificationToken;
+    }
+
+    @Override
+    public ResetPasswordToken createResetPasswordToken(AppUser appUser) {
+        ResetPasswordToken resetPasswordToken = new ResetPasswordToken();
+        resetPasswordToken.setAppUser(appUser);
+        LocalDateTime expiryDate = LocalDateTime.now().plusHours(24);
+        resetPasswordToken.setExpiryDate(expiryDate);
+        String token = UUID.randomUUID().toString();
+        resetPasswordToken.setToken(token);
+
+        //todo: implement
+//        emailVerificationTokenDao.save(emailVerificationToken);
+
+        return resetPasswordToken;
     }
 }

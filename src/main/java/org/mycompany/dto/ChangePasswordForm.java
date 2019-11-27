@@ -1,17 +1,16 @@
 package org.mycompany.dto;
 
-public class NewPasswordDTO {
-    private String uuid;
+public class ChangePasswordForm {
+    private String email;
     private String password;
     private String repeatPassword;
 
-    //todo: is getttet/setter required or we can use public for field int dtos?
-    public String getUUID() {
-        return uuid;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUUID(String uuid) {
-        this.uuid = uuid;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

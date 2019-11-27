@@ -9,6 +9,6 @@ public class TestUtil {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(RootConfig.class);
         EmailManager mailSender = (EmailManager) applicationContext.getBean("emailManagerImpl");
-        mailSender.sendResetPasswordEmail("alex93306@gmail.com");
+//        mailSender.sendResetPasswordEmail("alex93306@gmail.com");
     }
 }

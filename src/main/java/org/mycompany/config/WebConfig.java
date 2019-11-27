@@ -1,5 +1,6 @@
 package org.mycompany.config;
 
+import org.mycompany.controller.AppUserController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -9,9 +10,10 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
-@EnableWebMvc
 @Configuration
-public class WebConfig extends WebMvcConfigurerAdapter {
+@EnableWebMvc
+@ComponentScan("org.mycompany.*")
+public class WebConfig implements WebMvcConfigurer{
 
     @Bean
     public ViewResolver viewResolver() {
@@ -22,9 +24,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         resolver.setExposeContextBeansAsAttributes(true);
         return resolver;
     }
-    @Override
-    public void configureDefaultServletHandling(
-            DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
-    }
+
+//    @Override
+//    public void configureDefaultServletHandling(
+//            DefaultServletHandlerConfigurer configurer) {
+//        configurer.enable();
+//    }
 }

@@ -19,7 +19,7 @@ public class EmailManagerImpl implements EmailManager {
     MessageSource messageSource;
 
     @Override
-    public void sendEmail(String to, String subject, String message) {
+    public void sendSimpleEmail(String to, String subject, String message) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom("noreply@spitter.com");
         simpleMailMessage.setTo(to);
@@ -29,16 +29,25 @@ public class EmailManagerImpl implements EmailManager {
     }
 
     @Override
-    public void sendConfirmEmail(AppUser appUser) {
+    public void sendTemplateEmail(String to, String subject) {
+        //todo: implement
+    }
 
+    @Override
+    public void sendVerificationEmail(AppUser appUser) {
+        //todo: implement
+        //todo: subject
+        //todo: generate text
+            //todo: add template
+//        sendTemplateEmail(appUser.getEmail(), );
     }
 
     @Override
     public void sendResetPasswordEmail(AppUser appUser) {
         //todo: add locale or language to user instead of using default
         String subject = messageSource.getMessage("resetPassword.email.subject", new Object[0], Locale.getDefault());
-        String text = "Reset Password text " + appUser.getUUID();
-        sendEmail(appUser.getEmail(), subject, text);
+//        String text = "Reset Password text " + appUser.getUUID();
+//        sendSimpleEmail(appUser.getEmail(), subject, text);
     }
 
     @Override
