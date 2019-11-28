@@ -3,17 +3,23 @@ package org.mycompany.manager;
 import org.mycompany.entity.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
-import java.util.Locale;
+import javax.mail.internet.MimeMessage;
 
 @Component
 public class EmailManagerImpl implements EmailManager {
     @Autowired
     //todo: maybe rename all classes to Mail instead Email
-    private MailSender mailSender;
+    private JavaMailSender mailSender;
+
+    @Autowired
+    private TemplateEngine thymleafEngine;
 
     @Autowired
     MessageSource messageSource;
@@ -29,34 +35,70 @@ public class EmailManagerImpl implements EmailManager {
     }
 
     @Override
-    public void sendTemplateEmail(String to, String subject) {
-        //todo: implement
+    public void sendTemplateEmail(String to, String subject, String templateName, Context context) {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            String text = thymleafEngine.process(templateName + ".html", context);
+            helper.setText(text, true);
+        } catch (Exception e) {
+//            todo:
+            e.printStackTrace();
+        }
+
+        mailSender.send(mimeMessage);
     }
 
     @Override
-    public void sendVerificationEmail(AppUser appUser) {
-        //todo: implement
-        //todo: subject
-        //todo: generate text
-            //todo: add template
-//        sendTemplateEmail(appUser.getEmail(), );
+    public void sendVerificationEmail(AppUser appUser, String token) {
+        Context context = new Context();
+        context.setVariable("token", token);
+
+        //todo: template create
+        //todo: subject code
+        //todo: fill template
+        //todo: locale
+        sendTemplateEmail(appUser.getEmail(), "verificationEmail.subject", "verifyEmail", context);
     }
 
     @Override
-    public void sendResetPasswordEmail(AppUser appUser) {
-        //todo: add locale or language to user instead of using default
-        String subject = messageSource.getMessage("resetPassword.email.subject", new Object[0], Locale.getDefault());
-//        String text = "Reset Password text " + appUser.getUUID();
-//        sendSimpleEmail(appUser.getEmail(), subject, text);
+    public void sendResetPasswordEmail(AppUser appUser, String token) {
+        Context context = new Context();
+        //todo:
+        context.setVariable("firstName", "alex");
+        context.setVariable("token", token);
+
+        //todo: template create
+        //todo: subject code
+        //todo: fill template
+        //todo: locale
+        sendTemplateEmail(appUser.getEmail(), "successRegister.subject", "resetPassword", context);
     }
 
     @Override
     public void sendPasswordChangedEmail(AppUser appUser) {
-        //todo: implement
+        Context context = new Context();
+        context.setVariable("firstName", appUser.getFirstName());
+
+        //todo: template create
+        //todo: subject code
+        //todo: fill template
+        //todo: locale
+        sendTemplateEmail(appUser.getEmail(), "passwordChanged.subject", "passwordChanged", context);
     }
 
     @Override
     public void sendSuccessRegisterEmail(AppUser appUser) {
-        //todo: implement
+        Context context = new Context();
+        context.setVariable("firstName", appUser.getFirstName());
+
+        //todo: template create
+        //todo: subject code
+        //todo: fill template
+        //todo: locale
+        sendTemplateEmail(appUser.getEmail(), "successRegister.subject", "successRegister", context);
     }
 }

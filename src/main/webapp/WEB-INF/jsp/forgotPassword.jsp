@@ -15,7 +15,7 @@
 <body>
     <form action="<s:url value="/forgotPassword"/>" method="POST" >
         <input type="email" name="email" placeholder="Email"/>
-        <input type="submit" value="Reset password"/>
+        <input type="submit" value="<s:message code="resetPassword.button"/>"/>
     </form>
 </body>
 </html>

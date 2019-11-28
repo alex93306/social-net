@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
 @Controller
 public class AppUserController {
 
-    private static final String LOGIN_VIEW_NAME = "login";
     private static final String FORGOT_PASSWORD_VIEW_NAME = "forgotPassword";
+    private static final String LOGIN_VIEW_NAME = "login";
     private static final String REGISTER_VIEW_NAME = "register";
 
     @Autowired
@@ -61,7 +61,7 @@ public class AppUserController {
         EmailVerificationToken verificationToken = appUserManager.createEmailVerificationToken(appUser);
 
         //todo send email
-        emailManager.sendVerificationEmail(appUser);
+        emailManager.sendVerificationEmail(appUser, verificationToken.getToken());
 
         return "waitEmailVerification";
     }
@@ -97,22 +97,24 @@ public class AppUserController {
     }
 
     @PostMapping("/forgotPassword")
-    //todo: default or empty email. think about it
     public String requestResetPassword(@RequestParam String email) {
         //todo: validate email
 
         //todo: capture
 
-        AppUser appUser = appUserManager.findByEmail(email);
+//        AppUser appUser = appUserManager.findByEmail(email);
+        AppUser appUser = new AppUser();
+        appUser.setEmail("alex93306@gmail.com");
 
         //todo: null or exception
-        if (appUser == null) {
-            throw new RuntimeException("UserNotFound");
-        }
+//        if (appUser == null) {
+//            throw new RuntimeException("UserNotFound");
+//        }
 
         ResetPasswordToken resetPasswordToken = appUserManager.createResetPasswordToken(appUser);
 
-        emailManager.sendResetPasswordEmail(appUser);
+        emailManager.sendResetPasswordEmail(appUser, resetPasswordToken.getToken());
+
         return "waitResetPassword";
     }
 

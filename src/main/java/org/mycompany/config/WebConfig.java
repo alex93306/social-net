@@ -25,9 +25,9 @@ public class WebConfig implements WebMvcConfigurer{
         return resolver;
     }
 
-//    @Override
-//    public void configureDefaultServletHandling(
-//            DefaultServletHandlerConfigurer configurer) {
-//        configurer.enable();
-//    }
+    @Override
+    public void configureDefaultServletHandling(
+            DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
 }

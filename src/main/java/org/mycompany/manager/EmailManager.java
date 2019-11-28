@@ -1,17 +1,19 @@
 package org.mycompany.manager;
 
 import org.mycompany.entity.AppUser;
+import org.thymeleaf.context.Context;
 
 public interface EmailManager {
     void sendSimpleEmail(String to, String subject, String message);
 
-    void sendTemplateEmail(String to, String subject);
+    void sendTemplateEmail(String to, String subject, String templateName, Context context);
 
     // sendBeforeConfirEmail
-    void sendVerificationEmail(AppUser appUser);
+    void sendVerificationEmail(AppUser appUser, String token);
 
     // sendBeforePasswordChanged
-    void sendResetPasswordEmail(AppUser appUser);
+    //todo: javadocs
+    void sendResetPasswordEmail(AppUser appUser, String token);
 
     // sendAfterSuccessPasswordChanged
     void sendPasswordChangedEmail(AppUser appUser);

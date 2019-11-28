@@ -58,6 +58,7 @@ public class AppUserManagerImpl implements AppUserManager {
         LocalDateTime expiryDate = LocalDateTime.now().plusHours(24);
         emailVerificationToken.setExpiryDate(expiryDate);
         String token = UUID.randomUUID().toString();
+        //todo: hash token
         emailVerificationToken.setToken(token);
 
         //todo: implement
@@ -73,6 +74,7 @@ public class AppUserManagerImpl implements AppUserManager {
         LocalDateTime expiryDate = LocalDateTime.now().plusHours(24);
         resetPasswordToken.setExpiryDate(expiryDate);
         String token = UUID.randomUUID().toString();
+        //todo: hash token
         resetPasswordToken.setToken(token);
 
         //todo: implement

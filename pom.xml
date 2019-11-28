@@ -18,7 +18,9 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
 
+    <!--todo: versions all depan-->
     <spring.security.version>5.2.0.RELEASE</spring.security.version>
+    <thymleaf.version>3.0.11.RELEASE</thymleaf.version>
   </properties>
 
   <dependencies>
@@ -78,11 +80,18 @@
       <version>1.4.7</version>
     </dependency>
 
-    <!--<dependency>-->
-      <!--<groupId>org.thymeleaf</groupId>-->
-      <!--<artifactId>thymeleaf</artifactId>-->
-      <!--<version>3.0.11.RELEASE</version>-->
-    <!--</dependency>-->
+    <dependency>
+      <groupId>org.thymeleaf</groupId>
+      <artifactId>thymeleaf</artifactId>
+      <version>${thymleaf.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.thymeleaf</groupId>
+      <artifactId>thymeleaf-spring5</artifactId>
+      <version>${thymleaf.version}</version>
+    </dependency>
+
 
     <!--todo: -security-core automatically import. should I explicitly import it?-->
     <!--<dependency>-->
