@@ -53,7 +53,7 @@ public class ProfileController {
         AppUser appUser = new AppUser();
         appUser.setFirstName("alex");
         appUser.setLastName("Romanovich");
-        appUser.setBirthDay(LocalDate.now());
+        appUser.setBirthDate(LocalDate.now());
         appUser.setCity("Minsk");
         appUser.setEducation("BSUIR");
         appUser.setAbout("I'm the bad guy.");

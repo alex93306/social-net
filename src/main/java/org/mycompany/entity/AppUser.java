@@ -19,7 +19,7 @@ public class AppUser {
 
     private String firstName;
     private String lastName;
-    private LocalDate birthDay;
+    private LocalDate birthDate;
     private Gender gender;
     private String city;
     private String education;
@@ -65,12 +65,12 @@ public class AppUser {
         this.lastName = lastName;
     }
 
-    public LocalDate getBirthDay() {
-        return birthDay;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirthDay(LocalDate birthDay) {
-        this.birthDay = birthDay;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     public Gender getGender() {

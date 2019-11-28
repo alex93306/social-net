@@ -1,26 +1,35 @@
-package org.mycompany.dto;
+package org.mycompany.form;
 
+import org.hibernate.validator.constraints.Length;
 import org.mycompany.entity.Gender;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
-public class AppUserDTO {
-    private Long id;
+public class NewUserForm {
+
+    @NotEmpty
+    @Email
     private String email;
-    private String username;
+
+    @NotEmpty
+    @Length(min = 8, max = 30)
     private String password;
+
+    @NotEmpty
+    @Length(min = 8, max = 30)
+    private String repeatPassword;
+
+    @NotEmpty
     private String firstName;
+
+    @NotEmpty
     private String lastName;
+
     private Gender gender;
-    private LocalDate birthDay;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private LocalDate birthDate;
 
     public String getEmail() {
         return email;
@@ -30,20 +39,20 @@ public class AppUserDTO {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRepeatPassword() {
+        return repeatPassword;
+    }
+
+    public void setRepeatPassword(String repeatPassword) {
+        this.repeatPassword = repeatPassword;
     }
 
     public String getFirstName() {
@@ -70,13 +79,11 @@ public class AppUserDTO {
         this.gender = gender;
     }
 
-    public LocalDate getBirthDay() {
-        return birthDay;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirthDay(LocalDate birthDay) {
-        this.birthDay = birthDay;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
-
-
 }

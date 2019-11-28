@@ -29,25 +29,27 @@ public class AppUserManagerImpl implements AppUserManager {
 
     @Override
     public AppUser find(long id) {
-        return appUserDao.get(id);
+        //todo: implement
+//        return appUserDao.get(id);
+        return new AppUser();
     }
 
     @Override
     public AppUser findByEmail(String email) {
         //todo: implement
-        return null;
+        return new AppUser();
     }
 
     @Override
     public AppUser findByPasswordResetToken(String uuid) {
         //todo: implement it
-        return null;
+        return new AppUser();
     }
 
     @Override
     public EmailVerificationToken findEmailVerificationTokenByToken(String verifyToken) {
         //todo: implement
-        return null;
+        return new EmailVerificationToken();
     }
 
 

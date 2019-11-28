@@ -1,10 +1,10 @@
 package org.mycompany.controller;
 
-import org.mycompany.dto.AppUserDTO;
-import org.mycompany.dto.ChangePasswordForm;
+import org.mycompany.form.ChangePasswordForm;
 import org.mycompany.entity.AppUser;
 import org.mycompany.entity.EmailVerificationToken;
 import org.mycompany.entity.ResetPasswordToken;
+import org.mycompany.form.NewUserForm;
 import org.mycompany.manager.AppUserManager;
 import org.mycompany.manager.EmailManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 
 @Controller
@@ -33,25 +34,26 @@ public class AppUserController {
     }
 
     @GetMapping(value = "/register")
-    public String registerPage() {
+    public String registerPage(Model model) {
+        model.addAttribute("newUserForm", new NewUserForm());
         return REGISTER_VIEW_NAME;
     }
 
     @PostMapping("/register")
-    public String createAccount(AppUserDTO appUserDTO, BindingResult bindingResult) {
+    public String createAccount(@Valid NewUserForm newUserForm, BindingResult bindingResult) {
         //todo: validate
         if (bindingResult.hasErrors()) {
             return REGISTER_VIEW_NAME;
         }
 
         AppUser appUser = new AppUser();
-        appUser.setEmail(appUserDTO.getEmail());
+        appUser.setEmail(newUserForm.getEmail());
         //todo hash password
-        appUser.setPassword(appUserDTO.getPassword());
-        appUser.setFirstName(appUserDTO.getFirstName());
-        appUser.setLastName(appUserDTO.getLastName());
-        appUser.setBirthDay(appUserDTO.getBirthDay());
-        appUser.setGender(appUserDTO.getGender());
+        appUser.setPassword(newUserForm.getPassword());
+        appUser.setFirstName(newUserForm.getFirstName());
+        appUser.setLastName(newUserForm.getLastName());
+        appUser.setBirthDate(newUserForm.getBirthDate());
+        appUser.setGender(newUserForm.getGender());
 
         // generate and set UUID. it will use for email verification and reset password
         //todo: shoud we check uuid or it's really unique. Should we check if it's exists. should we send other info beside uuid
@@ -119,7 +121,7 @@ public class AppUserController {
     }
 
     @GetMapping("/resetPassword")
-    public String newPasswordForm(@RequestParam("token") String token, Model model, BindingResult errors) {
+    public String newPasswordForm(@RequestParam("token") String token, Model model) {
         AppUser appUser = appUserManager.findByPasswordResetToken(token);
         if (appUser == null) {
 //            return FORGOT_PASSWORD_VIEW_NAME;
@@ -127,7 +129,10 @@ public class AppUserController {
             throw new RuntimeException("UserNotFound");
         }
         //todo: invalidate token???
-        model.addAttribute("email", appUser.getEmail());
+        //todo: model attribute
+        ChangePasswordForm changePasswordForm = new ChangePasswordForm();
+        changePasswordForm.setEmail(appUser.getEmail());
+        model.addAttribute("newPasswordForm", changePasswordForm);
         return "newPassword";
     }
 
@@ -141,9 +146,9 @@ public class AppUserController {
 
         AppUser appUser = appUserManager.findByEmail(changePasswordForm.getEmail());
         //todo: hast password
-        appUser.setPassword(changePasswordForm.getPassword());
+        appUser.setPassword(changePasswordForm.getNewPassword());
 
-        appUserManager.save(appUser);
+//        appUserManager.save(appUser);
 
         emailManager.sendPasswordChangedEmail(appUser);
         //todo: authentificate user

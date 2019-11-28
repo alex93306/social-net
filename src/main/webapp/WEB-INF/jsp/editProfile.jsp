@@ -40,7 +40,7 @@
             </div>
             <div>
                 <span>Birthday: </span>
-                <span>${appUser.birthDay}</span>
+                <span>${appUser.birthDate}</span>
             </div>
             <div>
                 <span>City: </span>

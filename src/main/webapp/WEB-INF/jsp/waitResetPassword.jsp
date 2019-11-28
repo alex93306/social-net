@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: ALEX
@@ -13,7 +14,8 @@
 <body>
 
 <%--todo: implements--%>
-
+<h1>Please check your email, we've sent instructions to reset newPassword.</h1>
+<a href="<s:url value="/forgotPassword"/>">Use another email to recover newPassword</a>
 </body>
 </html>
 
