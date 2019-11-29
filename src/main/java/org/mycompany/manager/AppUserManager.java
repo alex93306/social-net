@@ -5,9 +5,8 @@ import org.mycompany.entity.EmailVerificationToken;
 import org.mycompany.entity.ResetPasswordToken;
 
 public interface AppUserManager {
-    AppUser save(AppUser appUser);
 
-    AppUser findByUsername(String username);
+    AppUser save(AppUser appUser);
 
     AppUser find(long id);
 

@@ -1,9 +1,14 @@
 package org.mycompany.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 //todo: name
+@Entity
 public abstract class AbstractToken {
+
+    @Id
     private Long id;
     private LocalDateTime expiryDate;
     //todo: come up better name

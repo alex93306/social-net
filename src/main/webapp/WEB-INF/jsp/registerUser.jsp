@@ -17,6 +17,11 @@
         input.error {
             background-color: #ffcccc;;
         }
+
+        .error-block {
+            border: 1px solid red;
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -24,7 +29,9 @@
 <%--todo: implement--%>
 
 <div class="loginForm">
-    <form:form action="/register" method="POST" modelAttribute="newUserForm">
+    <form:form action="/register" method="POST" modelAttribute="registerForm">
+        <form:errors path="*" cssClass="error-block"/>
+
         <form:label path="firstName" cssErrorClass="error">First Name</form:label>
         <form:input path="firstName" cssErrorClass="error"/>
         <form:errors path="firstName" cssClass="error"/><br/>

@@ -7,7 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
-public class NewUserForm {
+public class RegisterForm {
 
     @NotEmpty
     @Email

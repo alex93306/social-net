@@ -1,7 +1,7 @@
 package org.mycompany.manager;
 
 import org.mycompany.dao.AppUserDao;
-import org.mycompany.entity.AbstractToken;
+import org.mycompany.dao.EmailVerificationTokenDao;
 import org.mycompany.entity.AppUser;
 import org.mycompany.entity.EmailVerificationToken;
 import org.mycompany.entity.ResetPasswordToken;
@@ -17,14 +17,17 @@ public class AppUserManagerImpl implements AppUserManager {
     @Autowired
     private AppUserDao appUserDao;
 
+    @Autowired
+    private EmailVerificationTokenDao emailVerificationTokenDao;
+
     @Override
     public AppUser save(AppUser appUser) {
         return appUserDao.save(appUser);
     }
 
     @Override
-    public AppUser findByUsername(String username) {
-        return appUserDao.findByUsername(username); //todo: replace with common method
+    public AppUser findByEmail(String email) {
+        return appUserDao.findByEmail(email);
     }
 
     @Override
@@ -35,21 +38,14 @@ public class AppUserManagerImpl implements AppUserManager {
     }
 
     @Override
-    public AppUser findByEmail(String email) {
-        //todo: implement
-        return new AppUser();
-    }
-
-    @Override
     public AppUser findByPasswordResetToken(String uuid) {
         //todo: implement it
         return new AppUser();
     }
 
     @Override
-    public EmailVerificationToken findEmailVerificationTokenByToken(String verifyToken) {
-        //todo: implement
-        return new EmailVerificationToken();
+    public EmailVerificationToken findEmailVerificationTokenByToken(String token) {
+        return  emailVerificationTokenDao.findByToken(token);
     }
 
 
@@ -61,10 +57,10 @@ public class AppUserManagerImpl implements AppUserManager {
         emailVerificationToken.setExpiryDate(expiryDate);
         String token = UUID.randomUUID().toString();
         //todo: hash token
+        //todo: should we check token for unique
         emailVerificationToken.setToken(token);
 
-        //todo: implement
-//        emailVerificationTokenDao.save(emailVerificationToken);
+        emailVerificationTokenDao.save(emailVerificationToken);
 
         return emailVerificationToken;
     }

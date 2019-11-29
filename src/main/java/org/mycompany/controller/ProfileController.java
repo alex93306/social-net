@@ -32,7 +32,7 @@ public class ProfileController {
 
     @GetMapping("/{username}")
     public ModelAndView showUserProfile(@PathVariable String username) {
-        AppUser appUser = appUserManager.findByUsername(username);
+        AppUser appUser = appUserManager.findByEmail(username);
 
         return new ModelAndView(PROFILE_VIEWNAME).addObject(appUser);
     }
