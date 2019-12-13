@@ -2,7 +2,7 @@ package org.mycompany.dao;
 
 import org.mycompany.entity.AppUser;
 
-public interface AppUserDao {
+public interface AppUserDAO {
 
     AppUser find(Long id);
 

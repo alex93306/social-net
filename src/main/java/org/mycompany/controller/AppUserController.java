@@ -44,7 +44,7 @@ public class AppUserController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@Valid RegisterForm registerForm, BindingResult bindingResult) {
+    public String registerNewUser(@Valid RegisterForm registerForm, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return REGISTER_USER_VIEW_NAME;
@@ -64,7 +64,8 @@ public class AppUserController {
     //todo: come up better name method and path variable
     public String verifyEmail(@PathVariable String token, BindingResult bindingResult) {
 
-        EmailVerificationToken emailVerificationToken = appUserManager.findEmailVerificationTokenByToken(verifyToken);
+        EmailVerificationToken emailVerificationToken = null;
+//                appUserManager.findEmailVerificationTokenByToken(verifyToken);
 
         if (emailVerificationToken == null) {
             //todo:

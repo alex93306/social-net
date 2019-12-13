@@ -6,7 +6,7 @@ public class WebApplicationInitializerImpl extends AbstractAnnotationConfigDispa
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{RootConfig.class, EmailConfig.class};
+        return new Class[]{RootConfig.class, SecurityConfig.class, EmailConfig.class};
     }
 
     @Override

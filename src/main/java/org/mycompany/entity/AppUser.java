@@ -1,12 +1,17 @@
 package org.mycompany.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import java.time.LocalDate;
 
 @Entity
 @NamedQueries({
         @NamedQuery(name = "findByEmail", query = "SELECT u FROM AppUser u WHERE u.email = :email"),
-        @NamedQuery(name = "findByEmailVerificationToken", query = "")
+        @NamedQuery(name = "findByEmailVerificationToken", query = ""),
         @NamedQuery(name = "findByResetPasswordToken", query = "")
 })
 public class AppUser {

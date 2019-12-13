@@ -2,7 +2,7 @@ package org.mycompany.dao;
 
 import org.mycompany.entity.EmailVerificationToken;
 
-public interface EmailVerificationTokenDao {
+public interface EmailVerificationTokenDAO {
 
     EmailVerificationToken findByToken(String token);
 

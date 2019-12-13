@@ -1,7 +1,7 @@
 package org.mycompany.manager;
 
-import org.mycompany.dao.AppUserDao;
-import org.mycompany.dao.EmailVerificationTokenDao;
+import org.mycompany.dao.AppUserDAO;
+import org.mycompany.dao.EmailVerificationTokenDAO;
 import org.mycompany.entity.AppUser;
 import org.mycompany.entity.EmailVerificationToken;
 import org.mycompany.entity.ResetPasswordToken;
@@ -14,20 +14,22 @@ import java.util.UUID;
 @Component
 public class AppUserManagerImpl implements AppUserManager {
 
-    @Autowired
-    private AppUserDao appUserDao;
-
-    @Autowired
-    private EmailVerificationTokenDao emailVerificationTokenDao;
+//    @Autowired
+//    private AppUserDAO appUserDao;
+//
+//    @Autowired
+//    private EmailVerificationTokenDAO emailVerificationTokenDao;
 
     @Override
     public AppUser save(AppUser appUser) {
-        return appUserDao.save(appUser);
+//        return appUserDao.save(appUser);
+        return null;
     }
 
     @Override
     public AppUser findByEmail(String email) {
-        return appUserDao.findByEmail(email);
+//        return appUserDao.findByEmail(email);
+        return null;
     }
 
     @Override
@@ -45,7 +47,8 @@ public class AppUserManagerImpl implements AppUserManager {
 
     @Override
     public EmailVerificationToken findEmailVerificationTokenByToken(String token) {
-        return  emailVerificationTokenDao.findByToken(token);
+//        return  emailVerificationTokenDao.findByToken(token);
+        return null;
     }
 
 
@@ -60,7 +63,7 @@ public class AppUserManagerImpl implements AppUserManager {
         //todo: should we check token for unique
         emailVerificationToken.setToken(token);
 
-        emailVerificationTokenDao.save(emailVerificationToken);
+//        emailVerificationTokenDao.save(emailVerificationToken);
 
         return emailVerificationToken;
     }
