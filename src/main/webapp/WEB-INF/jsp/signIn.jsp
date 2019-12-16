@@ -1,9 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="../css/bootstrap.css"/>
+
+    <!-- Required meta tags -->
+    <%--todo: investigate other required stuff--%>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <%--todo: add local bootstrap--%>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <style>
         .signInForm {
             width: 500px;
@@ -28,10 +35,11 @@
                         <a class="text-primary" href="#">Forgot password</a>
                     </small>
                 </div>
-                <div class="custom-control custom-checkbox pb-3">
-                    <input type="checkbox" class="custom-control-input" id="remember-me">
-                    <label for="remember-me" class="custom-control-label">Remember me</label>
-                </div>
+                <%--todo:--%>
+                <%--<div class="custom-control custom-checkbox pb-3">--%>
+                    <%--<input type="checkbox" class="custom-control-input" id="remember-me">--%>
+                    <%--<label for="remember-me" class="custom-control-label">Remember me</label>--%>
+                <%--</div>--%>
                 <div class="text-center">
                     <button class="btn btn-primary">Sign in</button>
                 </div>
