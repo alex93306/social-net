@@ -24,7 +24,7 @@ public class AppUserController {
 
     private static final String FORGOT_PASSWORD_VIEW_NAME = "forgotPassword";
     private static final String LOGIN_VIEW_NAME = "login";
-    private static final String REGISTER_USER_VIEW_NAME = "registerUser";
+    private static final String REGISTER_USER_VIEW_NAME = "register";
 
     @Autowired
     private AppUserManager appUserManager;
@@ -32,7 +32,6 @@ public class AppUserController {
     private EmailManager emailManager;
 
     @GetMapping("/login")
-    //todo:
     public String loginPage() {
         return LOGIN_VIEW_NAME;
     }
