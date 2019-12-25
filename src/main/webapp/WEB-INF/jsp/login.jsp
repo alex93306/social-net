@@ -1,39 +1,40 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
 
-    <!-- Required meta tags -->
-    <%--todo: investigate other required stuff--%>
+    <%-- todo: investigate --%>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <%--todo: add local bootstrap--%>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <%--<link rel="stylesheet" href="<s:url value="/css/bootstrap.css"/>">--%>
+    <%--todo: add possibility to load local if remote bootstrap isn't accessible--%>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
+    <%--todo: move to file--%>
     <style>
-        .signInForm {
+        .sign-form {
             width: 500px;
             margin: 150px auto;
         }
     </style>
 </head>
 <body>
-<div class="signInForm">
-    <h3 class="mb-3 h3 text-center">Sign in</h3>
-    <div class="card">
+<div class="sign-form">
+    <h3 class="mb-3 h3 text-center"><s:message code="loginForm.caption"/></h3>
+    <div class="card shadow">
         <div class="card-body">
             <c:if test="${param.error != null}">
                 <div class="alert alert-danger">
+                        <%--todo I'm not sure--%>
                     <c:choose>
                         <c:when test="${SPRING_SECURITY_LAST_EXCEPTION != null}">
-                            <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
+                            <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
                         </c:when>
                         <c:otherwise>
                             Login failed.
@@ -41,29 +42,29 @@
                     </c:choose>
                 </div>
             </c:if>
-            <c:if test="${param.logout != null}">
-                <div class="alert alert-success">
-                    You have been signed out.
-                </div>
-            </c:if>
             <form action="<s:url value="/login"/>" method="post">
                 <div class="form-group">
-                    <label for="email"><s:message code="loginForm.email.label"/></label>
-                    <input class="form-control" type="text" id="email" name="username" placeholder="Enter your email"/>
+                    <label for="email"><s:message code="loginForm.label.email"/></label>
+                    <s:message code="loginForm.placeholder.email" var="emailPlaceholder"/>
+                    <input class="form-control" type="text" id="email" name="username"
+                           placeholder="${emailPlaceholder}" value="bob"/>
                 </div>
                 <div class="form-group">
-                    <label for="password"><s:message code="loginForm.password.label"/></label>
+                    <label for="password"><s:message code="loginForm.label.password"/></label>
+                    <s:message code="loginForm.placeholder.password" var="passwordPlaceholder"/>
                     <input class="form-control" type="password" id="password" name="password"
-                           placeholder="Enter your password"/>
+                           placeholder="${passwordPlaceholder}" value="bobpassword"/>
                     <small class="form-text text-muted">
-                        <a class="text-primary" href="#">Forgot password?</a>
+                        <a class="text-primary" href="#"><s:message code="loginForm.link.forgotPassword"/></a>
                     </small>
                 </div>
                 <div class="text-center">
-                    <button class="btn btn-block btn-primary">Log in</button>
+                    <button class="btn btn-block btn-primary"><s:message code="loginForm.button.login"/></button>
                 </div>
             </form>
-            <a class="btn btn-block mt-3 border border-primary" href="<s:url value="/register"/>">Sign up</a>
+            <a class="btn btn-block mt-3 border border-primary" href="<s:url value="/register"/>">
+                <s:message code="loginForm.button.signUp"/>
+            </a>
         </div>
     </div>
 </div>

@@ -1,8 +1,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="s" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
 <%--todo: investigate why?--%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,9 +14,10 @@
 
     <!--todo: title, metas and other according to boostrap-->
     <!--todo: import if unreacale cdn-->
-
+    <%--todo: create jsp and import a such stuff--%>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <%--todo: move to separate--%>
     <style>
         .signUpForm {
             width: 500px;
@@ -29,15 +31,19 @@
     <div class="card shadow-sm">
         <div class="card-body">
             <form:form action="/register" method="post" modelAttribute="registerForm">
-                <div class="alert alert-danger">
-                    <form:errors path="*"/>
-                </div>
+                <s:hasBindErrors name="registerForm">
+                    <div class="alert alert-danger">
+                        <form:errors path="*"/>
+                    </div>
+                </s:hasBindErrors>
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
-                            <form:label path="firstName" cssErrorClass="error">First Name</form:label>
+                            <form:label path="firstName" cssErrorClass="error"><s:message
+                                    code="registerForm.label.firstName"/></form:label>
+                            <s:message code="registerForm.placeholder.firstName" var="firstNamePlaceholder"/>
                             <form:input path="firstName" cssClass="form-control" cssErrorClass="form-control"
-                                        placeholder="First name"/>
+                                        placeholder="${firstNamePlaceholder}"/>
                         </div>
                     </div>
                     <div class="col">
@@ -49,7 +55,7 @@
                 </div>
                 <div class="form-group">
                     <form:label path="email" cssErrorClass="error">Email</form:label>
-                    <form:input path="email" cssClass="form-control" cssErrorClass="error" placeholder="Email"/>
+                    <form:input path="email" cssClass="form-control" placeholder="Email"/>
                 </div>
                 <div class="form-row">
                     <div class="col">

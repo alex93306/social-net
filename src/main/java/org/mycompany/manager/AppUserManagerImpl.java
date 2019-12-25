@@ -1,7 +1,6 @@
 package org.mycompany.manager;
 
 import org.mycompany.dao.AppUserDAO;
-import org.mycompany.dao.EmailVerificationTokenDAO;
 import org.mycompany.entity.AppUser;
 import org.mycompany.entity.EmailVerificationToken;
 import org.mycompany.entity.ResetPasswordToken;
@@ -14,16 +13,15 @@ import java.util.UUID;
 @Component
 public class AppUserManagerImpl implements AppUserManager {
 
-//    @Autowired
-//    private AppUserDAO appUserDao;
+    @Autowired
+    private AppUserDAO appUserDao;
 //
 //    @Autowired
 //    private EmailVerificationTokenDAO emailVerificationTokenDao;
 
     @Override
     public AppUser save(AppUser appUser) {
-//        return appUserDao.save(appUser);
-        return null;
+        return appUserDao.save(appUser);
     }
 
     @Override

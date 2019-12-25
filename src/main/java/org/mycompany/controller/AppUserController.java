@@ -8,6 +8,7 @@ import org.mycompany.form.RegisterForm;
 import org.mycompany.manager.AppUserManager;
 import org.mycompany.manager.EmailManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,6 +31,8 @@ public class AppUserController {
     private AppUserManager appUserManager;
     @Autowired
     private EmailManager emailManager;
+    @Autowired
+    private InMemoryUserDetailsManager inMemoryUserDetailsManager;
 
     @GetMapping("/login")
     public String loginPage() {

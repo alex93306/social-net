@@ -1,11 +1,10 @@
 package org.mycompany.entity;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 //todo: name
-@Entity
+//@Entity
 public abstract class AbstractToken {
 
     @Id

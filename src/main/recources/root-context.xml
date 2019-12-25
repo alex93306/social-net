@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--todo: investigate wheather should I move this file into WEB-INF-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- todo: should I scan here and spring-dispather-servlet.xml-->
+    <context:component-scan base-package="org.mycompany.dao; org.mycompany.manager;"/>
+
+    <context:property-placeholder location="classpath:application.properties"/>
+
+    <!--todo apply connection pool-->
+    <!--&lt;!&ndash;todo: move to separate file db-context?&ndash;&gt;-->
+    <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">-->
+    <!--<property name="driverClass" value="${db.driverClass}"/>-->
+    <!--<property name="jdbcUrl" value="${db.jdbcUrl}"/>-->
+    <!--<property name="user" value="${db.user}"/>-->
+    <!--<property name="password" value="${db.password}"/>-->
+    <!--<property name="minPoolSize" value="5"/>-->
+    <!--<property name="maxPoolSize" value="20"/>-->
+    <!--<property name="acquireIncrement" value="1"/>-->
+    <!--<property name="maxStatements" value="50"/>-->
+    <!--&lt;!&ndash;<property name="preferredTestQuery" value=""&ndash;&gt;-->
+    <!--&lt;!&ndash;<property name="testConnectionOnCheckin" value="true"/>&ndash;&gt;-->
+    <!--<property name="idleConnectionTestPeriod" value="3000"/>-->
+    <!--<property name="loginTimeout" value="300"/>-->
+    <!--</bean>-->
+    <jdbc:embedded-database id="dataSource" generate-name="true"/>
+
+    <bean id="hsqlJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="database" value="HSQL"/>
+        <!--todo needs? jpa properties-->
+        <property name="showSql" value="true"/>
+        <property name="databasePlatform" value="org.hibernate.dialect.HSQLDialect"/>
+    </bean>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter" ref="hsqlJpaVendorAdapter"/>
+        <property name="packagesToScan" value="org.mycompany.entity"/>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean name="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+
+    <!--todo: move to separate file(email-context)?-->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${mail.host}"/>
+        <property name="port" value="${mail.port}"/>
+        <property name="username" value="${mail.username}"/>
+        <property name="password" value="${mail.password}"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">${mail.properties.mail.smtp.auth}</prop>
+                <prop key="mail.smtp.starttls.enable">${mail.properties.mail.smtp.starttls.enable}</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="templateResolver" class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/WEB-INF/templates/"/>
+        <property name="suffix" value=".html"/>
+        <!--todo: investigate properties below-->
+        <property name="templateMode" value="HTML5"/>
+        <property name="characterEncoding" value="UTF-8"/>
+        <property name="order" value="1"/>
+        <!--todo: especially this-->
+        <property name="cacheable" value="false"/>
+    </bean>
+
+    <bean id="templateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver"/>
+    </bean>
+
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+</beans>
