@@ -32,6 +32,7 @@ public class AppUserDAOImpl implements AppUserDAO {
         return (AppUser) query.getSingleResult();
     }
 
+
     @Override
     public AppUser findByResetPasswordToken(String token) {
         Query query = em.createNamedQuery("findByResetPasswordToken");
