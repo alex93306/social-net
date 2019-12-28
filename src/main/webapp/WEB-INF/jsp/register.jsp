@@ -31,43 +31,42 @@
                         <div class="form-group">
                             <form:label path="firstName"><s:message code="registerForm.label.firstName"/></form:label>
                             <s:message code="registerForm.placeholder.firstName" var="firstNamePlaceholder"/>
-                            <form:input path="firstName" cssClass="form-control" placeholder="${firstNamePlaceholder}"/>
+                            <form:input path="firstName" cssClass="form-control" placeholder="${firstNamePlaceholder}" value="Test" />
                             <form:errors path="firstName" cssClass="error-msg"/>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <form:label path="lastName" >Last Name</form:label>
-                            <form:input path="lastName" cssClass="form-control" placeholder="Last name"/>
+                            <form:input path="lastName" cssClass="form-control" placeholder="Last name" value="Test"/>
                             <form:errors path="lastName" cssClass="error-msg"/>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <form:label path="email" >Email</form:label>
-                    <form:input path="email" cssClass="form-control" placeholder="Email"/>
+                    <form:input path="email" cssClass="form-control" placeholder="Email" value="aleksandar.r0manovitch@yandex.by"/>
                     <form:errors path="email" cssClass="error-msg"/>
                 </div>
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
                             <form:label path="password" >Password</form:label>
-                            <form:password path="password" cssClass="form-control" placeholder="Password"/>
+                            <form:password path="password" cssClass="form-control" placeholder="Password" value="password"/>
                             <form:errors path="password" cssClass="error-msg"/>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <form:label path="repeatPassword" >Repeat Password</form:label>
-                            <form:password path="repeatPassword" cssClass="form-control"
-                                           placeholder="Confirm password"/>
+                            <form:password path="repeatPassword" cssClass="form-control" placeholder="Confirm password" value="password"/>
                             <form:errors path="repeatPassword" cssClass="error-msg"/>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <form:label path="birthDate" >Birthday</form:label>
-                    <form:input path="birthDate" type="date" cssClass="form-control"/>
+                    <form:input path="birthDate" type="date" cssClass="form-control" value="2000-12-12"/>
                     <form:errors path="birthDate" cssClass="error-msg"/>
                 </div>
                 <div>
@@ -75,8 +74,7 @@
                 </div>
                 <div class="form-group">
                     <div class="custom-control custom-radio custom-control-inline">
-                        <form:radiobutton path="gender" id="genderFemale" value="FEMALE"
-                                          cssClass="custom-control-input"/>
+                        <form:radiobutton path="gender" id="genderFemale" value="FEMALE" cssClass="custom-control-input" checked="checked"/>
                         <form:label path="gender" for="genderFemale" cssClass="custom-control-label">Female</form:label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">

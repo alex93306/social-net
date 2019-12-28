@@ -8,6 +8,7 @@ import org.mycompany.form.RegisterForm;
 import org.mycompany.service.AppUserService;
 import org.mycompany.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,31 +23,30 @@ import java.time.LocalDateTime;
 @Controller
 public class AppUserController {
 
-    private static final String FORGOT_PASSWORD_VIEW_NAME = "forgotPassword";
-    private static final String LOGIN_VIEW_NAME = "login";
-    private static final String REGISTER_USER_VIEW_NAME = "register";
+    private static final String FORGOT_PASSWORD_VIEW = "forgotPassword";
+    private static final String LOGIN_VIEW = "login";
+    private static final String REGISTER_USER_VIEW = "register";
 
-    @Autowired
-    private AppUserService appUserService;
-    @Autowired
-    private EmailService emailService;
+    @Autowired private AppUserService appUserService;
+    @Autowired private EmailService emailService;
+    @Autowired private PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
     public String loginPage() {
-        return LOGIN_VIEW_NAME;
+        return LOGIN_VIEW;
     }
 
     @GetMapping(value = "/register")
     public String registerPage(Model model) {
         model.addAttribute("registerForm", new RegisterForm());
-        return REGISTER_USER_VIEW_NAME;
+        return REGISTER_USER_VIEW;
     }
 
     @PostMapping("/register")
     public String registerNewUser(@Valid RegisterForm registerForm, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return REGISTER_USER_VIEW_NAME;
+            return REGISTER_USER_VIEW;
         }
 
         AppUser appUser = buildAppUser(registerForm);
@@ -57,6 +57,28 @@ public class AppUserController {
         emailService.sendVerificationEmail(appUser, verificationToken.getToken());
 
         return "waitEmailVerification";
+    }
+
+    /**
+     * Helper method, which ac
+     * @param registerForm
+     * @return
+     */
+    private AppUser buildAppUser(RegisterForm registerForm) {
+        AppUser appUser = new AppUser();
+        appUser.setEmail(registerForm.getEmail());
+        appUser.setFirstName(registerForm.getFirstName());
+        appUser.setLastName(registerForm.getLastName());
+        appUser.setBirthDate(registerForm.getBirthDate());
+        appUser.setGender(registerForm.getGender());
+
+        // User is inactive till he confirm email.
+        appUser.setActive(false);
+
+        String encodedPassword = passwordEncoder.encode(registerForm.getPassword());
+        appUser.setPassword(encodedPassword);
+
+        return appUser;
     }
 
     @GetMapping("/verifyEmail/{token}")
@@ -87,7 +109,7 @@ public class AppUserController {
 
     @GetMapping("/forgotPassword")
     public String forgotPasswordPage() {
-        return FORGOT_PASSWORD_VIEW_NAME;
+        return FORGOT_PASSWORD_VIEW;
     }
 
     @PostMapping("/forgotPassword")
@@ -116,7 +138,7 @@ public class AppUserController {
     public String newPasswordForm(@RequestParam("token") String token, Model model) {
         AppUser appUser = appUserService.findByPasswordResetToken(token);
         if (appUser == null) {
-//            return FORGOT_PASSWORD_VIEW_NAME;
+//            return FORGOT_PASSWORD_VIEW;
             //todo:
             throw new RuntimeException("UserNotFound");
         }
@@ -147,19 +169,4 @@ public class AppUserController {
         //todo: redirect constance and check
         return "redirect://";
     }
-
-    private AppUser buildAppUser(RegisterForm registerForm) {
-        AppUser appUser = new AppUser();
-        appUser.setEmail(registerForm.getEmail());
-        //todo hash password
-        appUser.setPassword(registerForm.getPassword());
-        appUser.setFirstName(registerForm.getFirstName());
-        appUser.setLastName(registerForm.getLastName());
-//        appUser.setBirthDate(registerForm.getBirthDate());
-        appUser.setGender(registerForm.getGender());
-
-        return appUser;
-    }
-
-
 }

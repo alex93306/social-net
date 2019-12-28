@@ -17,13 +17,16 @@ public class RegisterForm {
 
     @NotEmpty
     @Length(min = 8, max = 30)
+    //todo: password strength
     private String password;
 
     @NotEmpty
     @Length(min = 8, max = 30)
+    //todo: match
     private String repeatPassword;
 
     @NotEmpty
+    //todo: length control
     private String firstName;
 
     @NotEmpty
@@ -31,6 +34,8 @@ public class RegisterForm {
 
     @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    //todo: isn't future
+    //todo: incorrect format
     private LocalDate birthDate;
 
     @NotNull

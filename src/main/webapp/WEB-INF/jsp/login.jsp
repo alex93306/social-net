@@ -38,14 +38,12 @@
                 <div class="form-group">
                     <label for="email"><s:message code="loginForm.label.email"/></label>
                     <s:message code="loginForm.placeholder.email" var="emailPlaceholder"/>
-                    <input class="form-control" type="text" id="email" name="username"
-                           placeholder="${emailPlaceholder}" value="bob"/>
+                    <input class="form-control" type="text" id="email" name="username" placeholder="${emailPlaceholder}" value="test@test.com"/>
                 </div>
                 <div class="form-group">
                     <label for="password"><s:message code="loginForm.label.password"/></label>
                     <s:message code="loginForm.placeholder.password" var="passwordPlaceholder"/>
-                    <input class="form-control" type="password" id="password" name="password"
-                           placeholder="${passwordPlaceholder}" value="bobpassword"/>
+                    <input class="form-control" type="password" id="password" name="password" placeholder="${passwordPlaceholder}" value="password"/>
                     <small class="form-text text-muted">
                         <s:url value="/forgotPassword" var="forgotPasswordUrl"/>
                         <a class="text-primary" href="${forgotPasswordUrl}"><s:message code="loginForm.link.forgotPassword"/></a>

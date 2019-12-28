@@ -15,6 +15,8 @@ import javax.mail.internet.MimeMessage;
 @Service
 public class EmailServiceImpl implements EmailService {
 
+    private static final String HTML_SUFFIX = ".html";
+
     @Autowired private JavaMailSender mailSender;
     @Autowired private TemplateEngine thymleafEngine;
 
@@ -36,7 +38,7 @@ public class EmailServiceImpl implements EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
             helper.setTo(to);
             helper.setSubject(subject);
-            String text = thymleafEngine.process(templateName + ".html", context);
+            String text = thymleafEngine.process(templateName + HTML_SUFFIX, context);
             helper.setText(text, true);
         } catch (Exception e) {
 //            todo:
@@ -55,7 +57,7 @@ public class EmailServiceImpl implements EmailService {
         //todo: subject code
         //todo: fill template
         //todo: locale
-        sendTemplateEmail(appUser.getEmail(), "verificationEmail.subject", "verifyEmail", context);
+        sendTemplateEmail(appUser.getEmail(), "verificationEmail.subject", "confirmEmail", context);
     }
 
     @Override
