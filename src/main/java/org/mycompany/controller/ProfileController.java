@@ -1,7 +1,7 @@
 package org.mycompany.controller;
 
 import org.mycompany.entity.AppUser;
-import org.mycompany.manager.AppUserManager;
+import org.mycompany.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ public class ProfileController {
     private static final String EDIT_PROFILE_VIEW = "editProfile";
 
     @Autowired
-    private AppUserManager appUserManager;
+    private AppUserService appUserService;
 
     @GetMapping("/")
     public ModelAndView homePage() {
@@ -28,14 +28,14 @@ public class ProfileController {
 
     @GetMapping(path = "/", params = {"id"})
     public ModelAndView showUserProfileByID(@RequestParam long ID) {
-        AppUser appUser = appUserManager.find(ID);
+        AppUser appUser = appUserService.find(ID);
 
         return new ModelAndView(PROFILE_VIEW).addObject(appUser);
     }
 
     @GetMapping("/{username}")
     public ModelAndView showUserProfile(@PathVariable String username) {
-        AppUser appUser = appUserManager.findByEmail(username);
+        AppUser appUser = appUserService.findByEmail(username);
 
         return new ModelAndView(PROFILE_VIEW).addObject(appUser);
     }

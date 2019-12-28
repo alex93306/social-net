@@ -6,15 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <%-- todo: investigate --%>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <%--todo: add possibility to load local if remote bootstrap isn't accessible--%>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <jsp:include page="includes/bootstrap.jsp"/>
 
     <%--todo: move to file--%>
     <style>
@@ -55,7 +47,8 @@
                     <input class="form-control" type="password" id="password" name="password"
                            placeholder="${passwordPlaceholder}" value="bobpassword"/>
                     <small class="form-text text-muted">
-                        <a class="text-primary" href="#"><s:message code="loginForm.link.forgotPassword"/></a>
+                        <s:url value="/forgotPassword" var="forgotPasswordUrl"/>
+                        <a class="text-primary" href="${forgotPasswordUrl}"><s:message code="loginForm.link.forgotPassword"/></a>
                     </small>
                 </div>
                 <div class="text-center">

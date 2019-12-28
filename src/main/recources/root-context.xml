@@ -9,7 +9,7 @@
 						http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!-- todo: should I scan here and spring-dispather-servlet.xml-->
-    <context:component-scan base-package="org.mycompany.dao; org.mycompany.manager;"/>
+    <context:component-scan base-package="org.mycompany.dao; org.mycompany.service;"/>
 
     <context:property-placeholder location="classpath:application.properties"/>
 
@@ -54,7 +54,7 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <tx:annotation-driven/>
 
 
     <!--todo: move to separate file(email-context)?-->
@@ -86,9 +86,20 @@
         <property name="templateResolver" ref="templateResolver"/>
     </bean>
 
+
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basename" value="classpath:messages"/>
+        <property name="basenames">
+            <list>
+                <value>classpath:messages</value>
+                <value>classpath:ValidationMessages</value>
+            </list>
+        </property>
         <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <!-- it needs to process custom validation messages. -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="validationMessageSource" ref="messageSource"/>
     </bean>
 
 </beans>

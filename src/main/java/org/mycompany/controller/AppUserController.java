@@ -5,10 +5,9 @@ import org.mycompany.entity.EmailVerificationToken;
 import org.mycompany.entity.ResetPasswordToken;
 import org.mycompany.form.ChangePasswordForm;
 import org.mycompany.form.RegisterForm;
-import org.mycompany.manager.AppUserManager;
-import org.mycompany.manager.EmailManager;
+import org.mycompany.service.AppUserService;
+import org.mycompany.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,11 +27,9 @@ public class AppUserController {
     private static final String REGISTER_USER_VIEW_NAME = "register";
 
     @Autowired
-    private AppUserManager appUserManager;
+    private AppUserService appUserService;
     @Autowired
-    private EmailManager emailManager;
-    @Autowired
-    private InMemoryUserDetailsManager inMemoryUserDetailsManager;
+    private EmailService emailService;
 
     @GetMapping("/login")
     public String loginPage() {
@@ -53,11 +50,11 @@ public class AppUserController {
         }
 
         AppUser appUser = buildAppUser(registerForm);
-        appUserManager.save(appUser);
+        appUserService.save(appUser);
 
-        EmailVerificationToken verificationToken = appUserManager.createEmailVerificationToken(appUser);
+        EmailVerificationToken verificationToken = appUserService.createEmailVerificationToken(appUser);
 
-        emailManager.sendVerificationEmail(appUser, verificationToken.getToken());
+        emailService.sendVerificationEmail(appUser, verificationToken.getToken());
 
         return "waitEmailVerification";
     }
@@ -67,7 +64,7 @@ public class AppUserController {
     public String verifyEmail(@PathVariable String token, BindingResult bindingResult) {
 
         EmailVerificationToken emailVerificationToken = null;
-//                appUserManager.findEmailVerificationTokenByToken(verifyToken);
+//                appUserService.findEmailVerificationTokenByToken(verifyToken);
 
         if (emailVerificationToken == null) {
             //todo:
@@ -80,7 +77,7 @@ public class AppUserController {
 
         AppUser appUser = emailVerificationToken.getAppUser();
         appUser.setActive(true);
-        appUserManager.save(appUser);
+        appUserService.save(appUser);
 
         //todo: remove or inactivate token ???
         //todo: authentificate user
@@ -99,7 +96,7 @@ public class AppUserController {
 
         //todo: capture
 
-//        AppUser appUser = appUserManager.findByEmail(email);
+//        AppUser appUser = appUserService.findByEmail(email);
         AppUser appUser = new AppUser();
         appUser.setEmail("alex93306@gmail.com");
 
@@ -108,16 +105,16 @@ public class AppUserController {
 //            throw new RuntimeException("UserNotFound");
 //        }
 
-        ResetPasswordToken resetPasswordToken = appUserManager.createResetPasswordToken(appUser);
+        ResetPasswordToken resetPasswordToken = appUserService.createResetPasswordToken(appUser);
 
-        emailManager.sendResetPasswordEmail(appUser, resetPasswordToken.getToken());
+        emailService.sendResetPasswordEmail(appUser, resetPasswordToken.getToken());
 
         return "waitResetPassword";
     }
 
     @GetMapping("/resetPassword")
     public String newPasswordForm(@RequestParam("token") String token, Model model) {
-        AppUser appUser = appUserManager.findByPasswordResetToken(token);
+        AppUser appUser = appUserService.findByPasswordResetToken(token);
         if (appUser == null) {
 //            return FORGOT_PASSWORD_VIEW_NAME;
             //todo:
@@ -139,13 +136,13 @@ public class AppUserController {
             return "newPassword";
         }
 
-        AppUser appUser = appUserManager.findByEmail(changePasswordForm.getEmail());
+        AppUser appUser = appUserService.findByEmail(changePasswordForm.getEmail());
         //todo: hast password
         appUser.setPassword(changePasswordForm.getNewPassword());
 
-//        appUserManager.save(appUser);
+//        appUserService.save(appUser);
 
-        emailManager.sendPasswordChangedEmail(appUser);
+        emailService.sendPasswordChangedEmail(appUser);
         //todo: authentificate user
         //todo: redirect constance and check
         return "redirect://";
@@ -158,7 +155,7 @@ public class AppUserController {
         appUser.setPassword(registerForm.getPassword());
         appUser.setFirstName(registerForm.getFirstName());
         appUser.setLastName(registerForm.getLastName());
-        appUser.setBirthDate(registerForm.getBirthDate());
+//        appUser.setBirthDate(registerForm.getBirthDate());
         appUser.setGender(registerForm.getGender());
 
         return appUser;

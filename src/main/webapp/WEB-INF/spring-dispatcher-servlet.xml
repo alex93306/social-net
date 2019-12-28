@@ -10,13 +10,12 @@
     <!--todo check package, which to scan-->
     <context:component-scan base-package="org.mycompany.controller"/>
 
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven validator="validator"/>
 
-    <context:annotation-config/>
+    <context:annotation-config />
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
-
 </beans>

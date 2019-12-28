@@ -8,6 +8,7 @@
     <http>
         <intercept-url pattern="/login" access="permitAll()"/>
         <intercept-url pattern="/register" access="permitAll()"/>
+        <intercept-url pattern="/forgotPassword" access="permitAll()"/>
 
         <intercept-url pattern="/**" access="isAuthenticated()"/>
 
@@ -17,11 +18,13 @@
         <logout/>
     </http>
 
+    <!-- todo: should I declare it explicitly-->
+    <beans:bean id="userDetailsService" class="org.mycompany.service.security.UserDetailsServiceImpl"/>
+    <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder"/>
     <authentication-manager>
-        <authentication-provider>
-            <user-service>
-                <user name="bob" password="{noop}bobpassword" authorities="ROLE_USER"/>
-            </user-service>
+        <authentication-provider user-service-ref="userDetailsService">
+            <!--todo: improve-->
+            <password-encoder ref="passwordEncoder"/>
         </authentication-provider>
     </authentication-manager>
 </beans:beans>

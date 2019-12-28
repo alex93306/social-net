@@ -1,4 +1,4 @@
-package org.mycompany.manager;
+package org.mycompany.service;
 
 import org.mycompany.dao.AppUserDAO;
 import org.mycompany.entity.AppUser;
@@ -6,12 +6,13 @@ import org.mycompany.entity.EmailVerificationToken;
 import org.mycompany.entity.ResetPasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Component
-public class AppUserManagerImpl implements AppUserManager {
+@Service
+public class AppUserServiceImpl implements AppUserService {
 
     @Autowired
     private AppUserDAO appUserDao;
@@ -26,8 +27,7 @@ public class AppUserManagerImpl implements AppUserManager {
 
     @Override
     public AppUser findByEmail(String email) {
-//        return appUserDao.findByEmail(email);
-        return null;
+        return appUserDao.findByEmail(email);
     }
 
     @Override

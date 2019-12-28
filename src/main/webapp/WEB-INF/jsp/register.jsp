@@ -7,21 +7,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <jsp:include page="includes/bootstrap.jsp"/>
 
-    <!--todo: title, metas and other according to boostrap-->
-    <!--todo: import if unreacale cdn-->
-    <%--todo: create jsp and import a such stuff--%>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <%--todo: move to separate--%>
     <style>
         .signUpForm {
             width: 500px;
             margin: 150px auto;
+        }
+        .error-msg {
+            color: red;
         }
     </style>
 </head>
@@ -31,65 +26,64 @@
     <div class="card shadow-sm">
         <div class="card-body">
             <form:form action="/register" method="post" modelAttribute="registerForm">
-                <s:hasBindErrors name="registerForm">
-                    <div class="alert alert-danger">
-                        <form:errors path="*"/>
-                    </div>
-                </s:hasBindErrors>
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
-                            <form:label path="firstName" cssErrorClass="error"><s:message
-                                    code="registerForm.label.firstName"/></form:label>
+                            <form:label path="firstName"><s:message code="registerForm.label.firstName"/></form:label>
                             <s:message code="registerForm.placeholder.firstName" var="firstNamePlaceholder"/>
-                            <form:input path="firstName" cssClass="form-control" cssErrorClass="form-control"
-                                        placeholder="${firstNamePlaceholder}"/>
+                            <form:input path="firstName" cssClass="form-control" placeholder="${firstNamePlaceholder}"/>
+                            <form:errors path="firstName" cssClass="error-msg"/>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <form:label path="lastName" cssErrorClass="error">Last Name</form:label>
+                            <form:label path="lastName" >Last Name</form:label>
                             <form:input path="lastName" cssClass="form-control" placeholder="Last name"/>
+                            <form:errors path="lastName" cssClass="error-msg"/>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <form:label path="email" cssErrorClass="error">Email</form:label>
+                    <form:label path="email" >Email</form:label>
                     <form:input path="email" cssClass="form-control" placeholder="Email"/>
+                    <form:errors path="email" cssClass="error-msg"/>
                 </div>
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
-                            <form:label path="password" cssErrorClass="error">Password</form:label>
+                            <form:label path="password" >Password</form:label>
                             <form:password path="password" cssClass="form-control" placeholder="Password"/>
+                            <form:errors path="password" cssClass="error-msg"/>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <form:label path="repeatPassword" cssErrorClass="error">Repeat Password</form:label>
+                            <form:label path="repeatPassword" >Repeat Password</form:label>
                             <form:password path="repeatPassword" cssClass="form-control"
                                            placeholder="Confirm password"/>
+                            <form:errors path="repeatPassword" cssClass="error-msg"/>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <form:label path="birthDate" cssErrorClass="error">Birthday</form:label>
+                    <form:label path="birthDate" >Birthday</form:label>
                     <form:input path="birthDate" type="date" cssClass="form-control"/>
+                    <form:errors path="birthDate" cssClass="error-msg"/>
                 </div>
                 <div>
                     Gender
                 </div>
                 <div class="form-group">
                     <div class="custom-control custom-radio custom-control-inline">
-                        <form:radiobutton path="gender" value="Female" cssClass="custom-control-input"/>
-                        <form:label path="gender" cssClass="custom-control-label"
-                                    cssErrorClass="error">Female</form:label>
+                        <form:radiobutton path="gender" id="genderFemale" value="FEMALE"
+                                          cssClass="custom-control-input"/>
+                        <form:label path="gender" for="genderFemale" cssClass="custom-control-label">Female</form:label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <form:radiobutton path="gender" value="Male" cssClass="custom-control-input"/>
-                        <form:label path="gender" cssClass="custom-control-label"
-                                    cssErrorClass="error">Male</form:label>
+                        <form:radiobutton path="gender" value="MALE" id="genderMale" cssClass="custom-control-input"/>
+                        <form:label path="gender" for="genderMale" cssClass="custom-control-label">Male</form:label>
                     </div>
+                    <form:errors path="gender" element="div" cssClass="error-msg"/>
                 </div>
 
                 <div class="mt-3 text-center">

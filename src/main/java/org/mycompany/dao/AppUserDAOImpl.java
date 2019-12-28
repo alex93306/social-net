@@ -6,7 +6,9 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -22,8 +24,11 @@ public class AppUserDAOImpl implements AppUserDAO {
 
     @Override
     public AppUser findByEmail(String email) {
-        Query query = em.createNamedQuery("findByEmail");
-        return (AppUser) query.getSingleResult();
+        TypedQuery<AppUser> query = em.createNamedQuery("findByEmail", AppUser.class);
+        query.setParameter("email", email);
+
+        List<AppUser> resultList = query.getResultList();
+        return resultList.isEmpty() ? null : resultList.get(0);
     }
 
     @Override

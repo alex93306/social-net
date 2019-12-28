@@ -2,15 +2,17 @@ package org.mycompany.form;
 
 import org.hibernate.validator.constraints.Length;
 import org.mycompany.entity.Gender;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class RegisterForm {
 
-    @NotEmpty
     @Email
+    @NotEmpty(message = "{error.email.notEmpty}")
     private String email;
 
     @NotEmpty
@@ -27,9 +29,13 @@ public class RegisterForm {
     @NotEmpty
     private String lastName;
 
-    private Gender gender;
-
+    @NotNull
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate birthDate;
+
+    @NotNull
+    //todo: invalide value for enum. now we have exception
+    private Gender gender;
 
     public String getEmail() {
         return email;
@@ -71,19 +77,19 @@ public class RegisterForm {
         this.lastName = lastName;
     }
 
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
     public LocalDate getBirthDate() {
         return birthDate;
     }
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 }
