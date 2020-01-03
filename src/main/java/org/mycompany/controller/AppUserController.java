@@ -7,6 +7,7 @@ import org.mycompany.form.ChangePasswordForm;
 import org.mycompany.form.RegisterForm;
 import org.mycompany.service.AppUserService;
 import org.mycompany.service.EmailService;
+import org.mycompany.service.EmailVerificationTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -26,8 +27,10 @@ public class AppUserController {
     private static final String FORGOT_PASSWORD_VIEW = "forgotPassword";
     private static final String LOGIN_VIEW = "login";
     private static final String REGISTER_USER_VIEW = "register";
+    private static final String WAIT_CONFIRM_EMAIL_VIEW = "waitConfirmEmail";
 
     @Autowired private AppUserService appUserService;
+    @Autowired private EmailVerificationTokenService emailVerificationTokenService;
     @Autowired private EmailService emailService;
     @Autowired private PasswordEncoder passwordEncoder;
 
@@ -36,27 +39,32 @@ public class AppUserController {
         return LOGIN_VIEW;
     }
 
-    @GetMapping(value = "/register")
+    @GetMapping("/register")
     public String registerPage(Model model) {
         model.addAttribute("registerForm", new RegisterForm());
         return REGISTER_USER_VIEW;
     }
 
     @PostMapping("/register")
-    public String registerNewUser(@Valid RegisterForm registerForm, BindingResult bindingResult) {
+    public String registerNewUser(@Valid RegisterForm registerForm, Model model, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return REGISTER_USER_VIEW;
         }
 
+        //todo: catpature?
+        //todo: prevent from double submition
         AppUser appUser = buildAppUser(registerForm);
         appUserService.save(appUser);
 
-        EmailVerificationToken verificationToken = appUserService.createEmailVerificationToken(appUser);
+        EmailVerificationToken verificationToken = emailVerificationTokenService.createToken(appUser);
 
         emailService.sendVerificationEmail(appUser, verificationToken.getToken());
 
-        return "waitEmailVerification";
+        model.addAttribute(appUser);
+        //todo: prevent double submittion after F5. apply Post/Redirect/Get pattern
+        //todo: add logging
+        return WAIT_CONFIRM_EMAIL_VIEW;
     }
 
     /**
@@ -72,7 +80,7 @@ public class AppUserController {
         appUser.setBirthDate(registerForm.getBirthDate());
         appUser.setGender(registerForm.getGender());
 
-        // User is inactive till he confirm email.
+        // User is inactive till he confirms email.
         appUser.setActive(false);
 
         String encodedPassword = passwordEncoder.encode(registerForm.getPassword());
@@ -81,27 +89,24 @@ public class AppUserController {
         return appUser;
     }
 
-    @GetMapping("/verifyEmail/{token}")
-    //todo: come up better name method and path variable
-    public String verifyEmail(@PathVariable String token, BindingResult bindingResult) {
+    @GetMapping("/confirmEmail/{token}")
+    public String confirmEmail(@PathVariable String token) {
 
-        EmailVerificationToken emailVerificationToken = null;
-//                appUserService.findEmailVerificationTokenByToken(verifyToken);
+        EmailVerificationToken emailVerificationToken = emailVerificationTokenService.findByToken(token);
 
-        if (emailVerificationToken == null) {
+        if (emailVerificationToken == null || emailVerificationToken.getExpiryDate().isAfter(LocalDateTime.now())) {
             //todo:
-            return null;
-        }
-        if (emailVerificationToken.getExpiryDate().isAfter(LocalDateTime.now())) {
-            //todo:
-            return null;
+            return "redirect://badlink";
         }
 
         AppUser appUser = emailVerificationToken.getAppUser();
         appUser.setActive(true);
         appUserService.save(appUser);
 
-        //todo: remove or inactivate token ???
+        // Deactivate token after use it
+        emailVerificationToken.setUsed(true);
+        emailVerificationTokenService.save(emailVerificationToken);
+
         //todo: authentificate user
 
         return "redirect://";
@@ -136,16 +141,16 @@ public class AppUserController {
 
     @GetMapping("/resetPassword")
     public String newPasswordForm(@RequestParam("token") String token, Model model) {
-        AppUser appUser = appUserService.findByPasswordResetToken(token);
-        if (appUser == null) {
+        //todo: replace
+        EmailVerificationToken emailVerificationToken = emailVerificationTokenService.findByToken(token);
+        if (emailVerificationToken == null || emailVerificationToken.getExpiryDate().isBefore(LocalDateTime.now())) {
 //            return FORGOT_PASSWORD_VIEW;
             //todo:
             throw new RuntimeException("UserNotFound");
         }
-        //todo: invalidate token???
-        //todo: model attribute
+
         ChangePasswordForm changePasswordForm = new ChangePasswordForm();
-        changePasswordForm.setEmail(appUser.getEmail());
+        changePasswordForm.setEmail(emailVerificationToken.getAppUser().getEmail());
         model.addAttribute("newPasswordForm", changePasswordForm);
         return "newPassword";
     }

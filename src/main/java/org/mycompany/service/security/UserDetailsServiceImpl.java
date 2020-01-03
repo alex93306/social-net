@@ -26,6 +26,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("User '" + username + "' was not found.");
         }
         List<GrantedAuthority> grantedAuthorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-        return new User(username, appUser.getPassword(), grantedAuthorities);
+        return new Principal(username, appUser.getPassword(), grantedAuthorities);
     }
 }

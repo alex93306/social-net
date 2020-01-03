@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<!--todo: check-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Завершение регистрации</title>
 </head>
 <body>
 <h1>
-    You're almost done.
+    Завершите регистрацию
 </h1>
+Подтвердите свой адрес электронной почты, чтобы завершить регистрацию.
 <a th:href="@{http://localhost:8080/confirmEmail/{token}(token=${token})}">Complete your registration</a>
 </body>
 </html>

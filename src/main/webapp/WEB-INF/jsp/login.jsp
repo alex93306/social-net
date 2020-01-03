@@ -52,6 +52,7 @@
                 <div class="text-center">
                     <button class="btn btn-block btn-primary"><s:message code="loginForm.button.login"/></button>
                 </div>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
             <a class="btn btn-block mt-3 border border-primary" href="<s:url value="/register"/>">
                 <s:message code="loginForm.button.signUp"/>

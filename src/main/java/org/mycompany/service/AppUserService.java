@@ -11,12 +11,4 @@ public interface AppUserService {
     AppUser find(long id);
 
     AppUser findByEmail(String email);
-
-    AppUser findByPasswordResetToken(String uuid);
-
-    EmailVerificationToken findEmailVerificationTokenByToken(String verifyToken);
-
-    EmailVerificationToken createEmailVerificationToken(AppUser appUser);
-
-    ResetPasswordToken createResetPasswordToken(AppUser appUser);
 }

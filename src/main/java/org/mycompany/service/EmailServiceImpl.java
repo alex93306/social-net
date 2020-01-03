@@ -35,7 +35,7 @@ public class EmailServiceImpl implements EmailService {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
 
         try {
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
             helper.setTo(to);
             helper.setSubject(subject);
             String text = thymleafEngine.process(templateName + HTML_SUFFIX, context);

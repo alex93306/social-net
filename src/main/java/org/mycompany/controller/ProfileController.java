@@ -2,7 +2,10 @@ package org.mycompany.controller;
 
 import org.mycompany.entity.AppUser;
 import org.mycompany.service.AppUserService;
+import org.mycompany.service.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,12 +20,11 @@ public class ProfileController {
     private static final String PROFILE_VIEW = "profile";
     private static final String EDIT_PROFILE_VIEW = "editProfile";
 
-    @Autowired
-    private AppUserService appUserService;
+    @Autowired private AppUserService appUserService;
 
     @GetMapping("/")
     public ModelAndView homePage() {
-        AppUser appUser = loadUser(); //todo: get current user
+        AppUser appUser = getCurrentApplicationUser();
         return new ModelAndView(PROFILE_VIEW).addObject(appUser);
     }
 
@@ -42,7 +44,8 @@ public class ProfileController {
 
     @GetMapping("/editProfile")
     public ModelAndView showEditProfilePage() {
-        AppUser appUser = loadUser();
+        AppUser appUser = getCurrentApplicationUser();
+
         return new ModelAndView(EDIT_PROFILE_VIEW).addObject(appUser);
     }
 
@@ -52,17 +55,10 @@ public class ProfileController {
         return new ModelAndView(EDIT_PROFILE_VIEW).addObject(appUser);
     }
 
-    private AppUser loadUser() {
-        AppUser appUser = new AppUser();
-        appUser.setFirstName("alex");
-        appUser.setLastName("Romanovich");
-        appUser.setBirthDate(LocalDate.now());
-        appUser.setCity("Minsk");
-        appUser.setEducation("BSUIR");
-        appUser.setAbout("I'm the bad guy.");
+    protected AppUser getCurrentApplicationUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Principal principal = (Principal) authentication.getPrincipal();
 
-        return appUser;
+        return appUserService.find(principal.getAppUserID());
     }
-
-
 }
