@@ -132,9 +132,9 @@ public class AppUserController {
 //            throw new RuntimeException("UserNotFound");
 //        }
 
-        ResetPasswordToken resetPasswordToken = appUserService.createResetPasswordToken(appUser);
-
-        emailService.sendResetPasswordEmail(appUser, resetPasswordToken.getToken());
+//        ResetPasswordToken resetPasswordToken = appUserService.createResetPasswordToken(appUser);
+//
+//        emailService.sendResetPasswordEmail(appUser, resetPasswordToken.getToken());
 
         return "waitResetPassword";
     }
