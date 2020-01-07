@@ -2,7 +2,6 @@ package org.mycompany.controller;
 
 import org.mycompany.entity.AppUser;
 import org.mycompany.entity.EmailVerificationToken;
-import org.mycompany.entity.ResetPasswordToken;
 import org.mycompany.form.ChangePasswordForm;
 import org.mycompany.form.RegisterForm;
 import org.mycompany.service.AppUserService;
@@ -132,9 +131,9 @@ public class AppUserController {
 //            throw new RuntimeException("UserNotFound");
 //        }
 
-        ResetPasswordToken resetPasswordToken = appUserService.createResetPasswordToken(appUser);
-
-        emailService.sendResetPasswordEmail(appUser, resetPasswordToken.getToken());
+//        ResetPasswordToken resetPasswordToken = appUserService.createResetPasswordToken(appUser);
+//
+//        emailService.sendResetPasswordEmail(appUser, resetPasswordToken.getToken());
 
         return "waitResetPassword";
     }

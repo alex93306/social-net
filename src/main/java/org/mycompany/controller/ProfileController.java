@@ -56,9 +56,9 @@ public class ProfileController {
     }
 
     protected AppUser getCurrentApplicationUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Principal principal = (Principal) authentication.getPrincipal();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        Principal principal = (Principal) authentication.getPrincipal();
 
-        return appUserService.find(principal.getAppUserID());
+        return new AppUser();
     }
 }
