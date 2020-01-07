@@ -59,6 +59,7 @@ public class ProfileController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Principal principal = (Principal) authentication.getPrincipal();
 
-        return appUserService.find(principal.getAppUserID());
+        //todo:
+        return appUserService.findByEmail(principal.getUsername());
     }
 }

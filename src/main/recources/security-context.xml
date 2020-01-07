@@ -10,11 +10,9 @@
         <intercept-url pattern="/register" access="permitAll()"/>
         <intercept-url pattern="/confirmEmail/**" access="permitAll()"/>
         <intercept-url pattern="/forgotPassword" access="permitAll()"/>
-        <!--<intercept-url pattern="/**" access="isAuthenticated()"/>-->
+        <intercept-url pattern="/**" access="isAuthenticated()"/>
 
         <form-login login-page="/login" default-target-url="/"/>
-
-        <!--<csrf disabled="true"/>-->
 
         <logout/>
     </http>
