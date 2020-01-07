@@ -2,6 +2,8 @@ package org.mycompany.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NamedQueries({
@@ -26,6 +28,9 @@ public class AppUser {
     private String city;
     private String education;
     private String about;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Chat> chats = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -65,6 +70,10 @@ public class AppUser {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 
     public LocalDate getBirthDate() {
@@ -115,8 +124,17 @@ public class AppUser {
         return about;
     }
 
-    // custom getter/setter
-    public String getFullName() {
-        return firstName + " " + lastName;
+    public Set<Chat> getChats() {
+        return chats;
     }
+
+    protected void setChats(Set<Chat> chats) {
+        this.chats = chats;
+    }
+
+    public void addChat(Chat chat) {
+        this.chats.add(chat);
+    }
+
+
 }
