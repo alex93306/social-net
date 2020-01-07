@@ -13,26 +13,25 @@
 
     <context:property-placeholder location="classpath:application.properties"/>
 
-    <!--todo apply connection pool-->
-    <!--&lt;!&ndash;todo: move to separate file db-context?&ndash;&gt;-->
-    <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">-->
-    <!--<property name="driverClass" value="${db.driverClass}"/>-->
-    <!--<property name="jdbcUrl" value="${db.jdbcUrl}"/>-->
-    <!--<property name="user" value="${db.user}"/>-->
-    <!--<property name="password" value="${db.password}"/>-->
-    <!--<property name="minPoolSize" value="5"/>-->
-    <!--<property name="maxPoolSize" value="20"/>-->
-    <!--<property name="acquireIncrement" value="1"/>-->
-    <!--<property name="maxStatements" value="50"/>-->
-    <!--&lt;!&ndash;<property name="preferredTestQuery" value=""&ndash;&gt;-->
-    <!--&lt;!&ndash;<property name="testConnectionOnCheckin" value="true"/>&ndash;&gt;-->
-    <!--<property name="idleConnectionTestPeriod" value="3000"/>-->
-    <!--<property name="loginTimeout" value="300"/>-->
-    <!--</bean>-->
-    <jdbc:embedded-database id="dataSource" generate-name="true"/>
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="org.postgresql.Driver" />
+        <!--todo create db  and users -->
+        <property name="jdbcUrl" value="jdbc:postgresql://localhost/postgres" />
+        <property name="user" value="postgres" />
+        <property name="password" value="0000" />
 
-    <bean id="hsqlJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-        <property name="database" value="HSQL"/>
+        <property name="minPoolSize" value="5"/>
+        <property name="maxPoolSize" value="20"/>
+        <property name="acquireIncrement" value="1"/>
+        <property name="maxStatements" value="50"/>
+        <property name="idleConnectionTestPeriod" value="3000"/>
+        <property name="loginTimeout" value="300"/>
+    </bean>
+
+    <!--todo: investigate and imporve settings-->
+    <!--todo: move to property file-->
+    <bean id="postgresJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="database" value="POSTGRESQL"/>
         <!--todo needs? jpa properties-->
         <property name="showSql" value="true"/>
         <property name="databasePlatform" value="org.hibernate.dialect.HSQLDialect"/>
@@ -40,12 +39,12 @@
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="jpaVendorAdapter" ref="hsqlJpaVendorAdapter"/>
+        <property name="jpaVendorAdapter" ref="postgresJpaVendorAdapter"/>
         <property name="packagesToScan" value="org.mycompany.entity"/>
         <property name="jpaProperties">
             <props>
                 <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
-                <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</prop>
             </props>
         </property>
     </bean>
@@ -56,8 +55,6 @@
 
     <tx:annotation-driven/>
 
-
-    <!--todo: move to separate file(email-context)?-->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="${mail.host}"/>
         <property name="port" value="${mail.port}"/>
