@@ -2,7 +2,6 @@ package org.mycompany.controller;
 
 import org.mycompany.entity.AppUser;
 import org.mycompany.entity.EmailVerificationToken;
-import org.mycompany.entity.ResetPasswordToken;
 import org.mycompany.form.ChangePasswordForm;
 import org.mycompany.form.RegisterForm;
 import org.mycompany.service.AppUserService;
