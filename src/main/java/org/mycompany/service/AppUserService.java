@@ -1,12 +1,15 @@
 package org.mycompany.service;
 
 import org.mycompany.entity.AppUser;
-import org.mycompany.entity.EmailVerificationToken;
+import java.util.List;
+
 public interface AppUserService {
 
     AppUser getCurrentAppUser();
 
     AppUser find(long id);
+
+    List<AppUser> findAll();
 
     AppUser findByEmail(String email);
 

@@ -12,12 +12,15 @@
     <div class="card-body">
         <form:form action="/createChat"  method="post" modelAttribute="createChatForm">
             <div class="form-group">
-                <label for="">Название чата</label>
-                <form:input path="name" cssClass="form-control"/>
+                <label for="chatName">Название чата</label>
+                <form:input path="name" cssClass="form-control" id="chatName"/>
             </div>
             <div class="form-group">
-                <label for="">Укажите id собеседника</label>
-                <form:input path="memberAppUserID" cssClass="form-control"/>
+                <label for="chatMemberID">Укажите собеседника</label>
+                <form:select path="memberAppUserID" id="chatMemberID">
+                    <form:option label="----- Select -----" value="${null}"/>
+                    <form:options items="${userList}"  itemLabel="fullName" itemValue="id"/>
+                </form:select>
             </div>
             <button type="submit">Создать чат</button>
         </form:form>

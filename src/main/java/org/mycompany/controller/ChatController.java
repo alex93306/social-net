@@ -23,7 +23,13 @@ public class ChatController {
 
     @GetMapping("/createChat")
     public ModelAndView showCreateChatPage() {
-        return new ModelAndView("createChat").addObject(new CreateChatForm());
+        List<AppUser> userList = appUserService.findAll();
+
+        ModelAndView modelAndView = new ModelAndView("createChat");
+        modelAndView.addObject(new CreateChatForm());
+        modelAndView.addObject("userList", userList);
+
+        return modelAndView;
     }
 
     @PostMapping("/createChat")

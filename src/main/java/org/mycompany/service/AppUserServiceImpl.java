@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Service
 public class AppUserServiceImpl implements AppUserService {
 
@@ -25,6 +28,21 @@ public class AppUserServiceImpl implements AppUserService {
         //todo: implement
 //        return appUserDao.get(id);
         return new AppUser();
+    }
+
+    @Override
+    public List<AppUser> findAll() {
+        AppUser appUser1 = new AppUser();
+        appUser1.setId(1L);
+        appUser1.setFirstName("alex");
+        appUser1.setLastName("romanovich");
+
+        AppUser appUser2 = new AppUser();
+        appUser2.setId(2L);
+        appUser2.setFirstName("bob");
+        appUser2.setLastName("Marlie");
+
+        return Arrays.asList(appUser1, appUser2);
     }
 
     @Override
