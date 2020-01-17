@@ -1,9 +1,6 @@
 package org.mycompany.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,11 +16,8 @@ public class Chat {
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<AppUser> chatMembers = new HashSet<>();
-//    private Set<Message> messages;
-//    private Message lastMessage;
-
 
     public Long getChatID() {
         return chatID;

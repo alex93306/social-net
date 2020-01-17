@@ -29,7 +29,7 @@ public class AppUser {
     private String education;
     private String about;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "chatMembers")
     private Set<Chat> chats = new HashSet<>();
 
     public Long getId() {

@@ -23,6 +23,7 @@ public class ChatController {
 
     @GetMapping("/createChat")
     public ModelAndView showCreateChatPage() {
+        //todo: find only friends
         List<AppUser> userList = appUserService.findAll();
 
         ModelAndView modelAndView = new ModelAndView("createChat");
