@@ -2,7 +2,6 @@ package org.mycompany.controller;
 
 import org.mycompany.entity.AppUser;
 import org.mycompany.entity.EmailVerificationToken;
-import org.mycompany.entity.ResetPasswordToken;
 import org.mycompany.form.ChangePasswordForm;
 import org.mycompany.form.RegisterForm;
 import org.mycompany.service.AppUserService;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -40,16 +40,17 @@ public class AppUserController {
     }
 
     @GetMapping("/register")
-    public String registerPage(Model model) {
-        model.addAttribute("registerForm", new RegisterForm());
-        return REGISTER_USER_VIEW;
+    public ModelAndView registerPage() {
+        ModelAndView mav = new ModelAndView(REGISTER_USER_VIEW);
+        mav.addObject(new RegisterForm());
+        return mav;
     }
 
     @PostMapping("/register")
-    public String registerNewUser(@Valid RegisterForm registerForm, Model model, BindingResult bindingResult) {
+    public ModelAndView registerNewUser(@Valid RegisterForm registerForm, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return REGISTER_USER_VIEW;
+            return new ModelAndView(REGISTER_USER_VIEW);
         }
 
         //todo: catpature?
@@ -59,20 +60,18 @@ public class AppUserController {
 
         EmailVerificationToken verificationToken = emailVerificationTokenService.createToken(appUser);
 
-        emailService.sendVerificationEmail(appUser, verificationToken.getToken());
+//        todo:
+//        emailService.sendVerificationEmail(appUser, verificationToken.getToken());
 
-        model.addAttribute(appUser);
+        ModelAndView mav = new ModelAndView(WAIT_CONFIRM_EMAIL_VIEW);
+        mav.addObject(appUser);
         //todo: prevent double submittion after F5. apply Post/Redirect/Get pattern
         //todo: add logging
-        return WAIT_CONFIRM_EMAIL_VIEW;
+        return mav;
     }
 
-    /**
-     * Helper method, which ac
-     * @param registerForm
-     * @return
-     */
-    private AppUser buildAppUser(RegisterForm registerForm) {
+    //todo: javadoc
+    protected AppUser buildAppUser(RegisterForm registerForm) {
         AppUser appUser = new AppUser();
         appUser.setEmail(registerForm.getEmail());
         appUser.setFirstName(registerForm.getFirstName());

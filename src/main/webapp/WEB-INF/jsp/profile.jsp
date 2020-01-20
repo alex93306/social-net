@@ -10,6 +10,10 @@
 </head>
 <body>
 <spring:url var="logoutUrl" value="/logout"/>
+<form action="${logoutUrl}" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <button class="btn btn-primary" type="submit">Logout</button>
+</form>
 <a href="${logoutUrl}">Logout</a>
 <div class="avatar">
     <div><img src="https://www.drupal.org/files/issues/default-avatar.png"/></div>
