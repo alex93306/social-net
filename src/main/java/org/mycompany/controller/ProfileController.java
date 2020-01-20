@@ -2,18 +2,15 @@ package org.mycompany.controller;
 
 import org.mycompany.entity.AppUser;
 import org.mycompany.service.AppUserService;
-import org.mycompany.service.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.time.LocalDate;
 
 @Controller
 public class ProfileController {
@@ -22,29 +19,32 @@ public class ProfileController {
 
     @Autowired private AppUserService appUserService;
 
-    @GetMapping("/")
+    @GetMapping(value = {"/", "/profile/**"})
     public ModelAndView homePage() {
-        AppUser appUser = getCurrentApplicationUser();
+        AppUser appUser = appUserService.getCurrentAppUser();
         return new ModelAndView(PROFILE_VIEW).addObject(appUser);
     }
 
-    @GetMapping(path = "/", params = {"id"})
-    public ModelAndView showUserProfileByID(@RequestParam long ID) {
-        AppUser appUser = appUserService.find(ID);
+    @GetMapping(value = {"/profile/**"}, params = {"id"})
+    public ModelAndView showUserProfileByID(@RequestParam long id) {
+        AppUser appUser = appUserService.find(id);
 
         return new ModelAndView(PROFILE_VIEW).addObject(appUser);
     }
 
-    @GetMapping("/{username}")
-    public ModelAndView showUserProfile(@PathVariable String username) {
+    @GetMapping("/profile/{username}")
+    public ModelAndView showUserProfileByUsername(@PathVariable String username) {
         AppUser appUser = appUserService.findByEmail(username);
+        if (appUser == null) {
+            throw new UserNotFoundException();
+        }
 
         return new ModelAndView(PROFILE_VIEW).addObject(appUser);
     }
 
     @GetMapping("/editProfile")
     public ModelAndView showEditProfilePage() {
-        AppUser appUser = getCurrentApplicationUser();
+        AppUser appUser = appUserService.getCurrentAppUser();
 
         return new ModelAndView(EDIT_PROFILE_VIEW).addObject(appUser);
     }
@@ -55,11 +55,7 @@ public class ProfileController {
         return new ModelAndView(EDIT_PROFILE_VIEW).addObject(appUser);
     }
 
-    protected AppUser getCurrentApplicationUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Principal principal = (Principal) authentication.getPrincipal();
-
-        //todo:
-        return appUserService.findByEmail(principal.getUsername());
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    protected class UserNotFoundException extends RuntimeException {
     }
 }
