@@ -7,7 +7,6 @@ import org.mycompany.form.GeneralInfoForm;
 import org.mycompany.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.time.LocalDate;
+import java.util.stream.Stream;
 
 @Controller
 public class ProfileController {
@@ -70,40 +71,44 @@ public class ProfileController {
         //todo: maybe it's possible make general, i.e. use ?section=general
         AppUser currentUser = appUserService.getCurrentAppUser();
 
-        ModelAndView mav = new ModelAndView("ajax/editGeneralInfo");
+        ModelAndView mav = new ModelAndView("ajax/editContactsInfo");
         mav.addObject(currentUser);
 
         return mav;
     }
 
-    @PostMapping("/saveGeneralInfo")
-    public String storeGeneralInfo(GeneralInfoForm form, BindingResult bindingResult) {
+    @PostMapping("/ajaxSaveGeneralInfo")
+    public ModelAndView storeGeneralInfo(GeneralInfoForm form, BindingResult bindingResult) {
         //todo: validate
         if (bindingResult.hasErrors()) {
-            return "editProfile";
+            return new ModelAndView("ajax/editGeneralInfo");
         }
 
         AppUser currentUser = appUserService.getCurrentAppUser();
         populateGeneralInfo(currentUser, form);
 
-        appUserService.save(currentUser);
+        appUserService.update(currentUser);
 
-        return "redirect://editProfile";
+        ModelAndView mav = new ModelAndView("ajax/editGeneralInfo");
+        mav.addObject("appUser", currentUser);
+        mav.addObject("isSaved", true);
+
+        return mav;
     }
 
     protected void populateGeneralInfo(AppUser appUser, GeneralInfoForm form) {
         appUser.setFirstName(form.getFirstName());
         appUser.setLastName(form.getLastName());
 
-        Gender gender = Gender.valueOf(form.getGender());
-        appUser.setGender(gender);
+//        Gender gender = Gender.valueOf(form.getGender());
+//        appUser.setGender(gender);
 
-        if (Gender.FEMALE.equals(gender)) {
-            appUser.setMaidenName(form.getMaidenName());
-        }
+//        if (Gender.FEMALE.equals(gender)) {
+//            appUser.setMaidenName(form.getMaidenName());
+//        }
 
-        appUser.setMaritalStatus(MaritalStatus.valueOf(form.getMaritalStatus()));
-        appUser.setBirthDate(LocalDate.parse(form.getBirthday()));
+//        appUser.setMaritalStatus(MaritalStatus.valueOf(form.getMaritalStatus()));
+//        appUser.setBirthDate(LocalDate.parse(form.getBirthday()));
     }
 
     @PostMapping("/saveContactInfo")

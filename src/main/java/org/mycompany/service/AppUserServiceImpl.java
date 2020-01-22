@@ -35,4 +35,9 @@ public class AppUserServiceImpl implements AppUserService {
     public AppUser save(AppUser appUser) {
         return appUserDao.save(appUser);
     }
+
+    @Override
+    public AppUser update(AppUser appUser) {
+        return appUserDao.update(appUser);
+    }
 }

@@ -23,13 +23,13 @@ public class AppUser {
     private String firstName;
     private String lastName;
     private String maidenName;
-    private Gender gender;
-    private MaritalStatus maritalStatus;
+//    private Gender gender;
+//    private MaritalStatus maritalStatus;
     private LocalDate birthDate;
     private String homeCity;
 
-    @ManyToMany
-    private List<Language> speakLanguages;
+//    @ManyToMany
+//    private List<Language> speakLanguages;
 
     private String city;
     private String education;
@@ -91,21 +91,21 @@ public class AppUser {
         this.maidenName = maidenName;
     }
 
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public MaritalStatus getMaritalStatus() {
-        return maritalStatus;
-    }
-
-    public void setMaritalStatus(MaritalStatus maritalStatus) {
-        this.maritalStatus = maritalStatus;
-    }
+//    public Gender getGender() {
+//        return gender;
+//    }
+//
+//    public void setGender(Gender gender) {
+//        this.gender = gender;
+//    }
+//
+//    public MaritalStatus getMaritalStatus() {
+//        return maritalStatus;
+//    }
+//
+//    public void setMaritalStatus(MaritalStatus maritalStatus) {
+//        this.maritalStatus = maritalStatus;
+//    }
 
     public LocalDate getBirthDate() {
         return birthDate;
@@ -123,13 +123,13 @@ public class AppUser {
         this.homeCity = homeCity;
     }
 
-    public List<Language> getSpeakLanguages() {
-        return speakLanguages;
-    }
-
-    public void setSpeakLanguages(List<Language> speakLanguages) {
-        this.speakLanguages = speakLanguages;
-    }
+//    public List<Language> getSpeakLanguages() {
+//        return speakLanguages;
+//    }
+//
+//    public void setSpeakLanguages(List<Language> speakLanguages) {
+//        this.speakLanguages = speakLanguages;
+//    }
 
     public String getCity() {
         return city;
