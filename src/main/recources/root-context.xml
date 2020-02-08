@@ -5,8 +5,9 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-						http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+						http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/data/jpa https://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <!-- todo: should I scan here and spring-dispather-servlet.xml-->
     <context:component-scan base-package="org.mycompany.dao; org.mycompany.service;"/>
@@ -27,6 +28,8 @@
         <property name="idleConnectionTestPeriod" value="3000"/>
         <property name="loginTimeout" value="300"/>
     </bean>
+
+    <jpa:repositories base-package="org.mycompany.repository"/>
 
     <!--todo: investigate and imporve settings-->
     <!--todo: move to property file-->
@@ -56,14 +59,14 @@
     <tx:annotation-driven/>
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="${mail.host}"/>
-        <property name="port" value="${mail.port}"/>
-        <property name="username" value="${mail.username}"/>
-        <property name="password" value="${mail.password}"/>
+        <property name="host" value="${spring.mail.host}"/>
+        <property name="port" value="${spring.mail.port}"/>
+        <property name="username" value="${spring.mail.username}"/>
+        <property name="password" value="${spring.mail.password}"/>
         <property name="javaMailProperties">
             <props>
-                <prop key="mail.smtp.auth">${mail.properties.mail.smtp.auth}</prop>
-                <prop key="mail.smtp.starttls.enable">${mail.properties.mail.smtp.starttls.enable}</prop>
+                <prop key="mail.smtp.auth">${spring.mail.properties.mail.smtp.auth}</prop>
+                <prop key="mail.smtp.starttls.enable">${spring.mail.properties.mail.smtp.starttls.enable}</prop>
             </props>
         </property>
     </bean>
