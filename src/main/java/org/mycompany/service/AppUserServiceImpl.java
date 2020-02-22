@@ -1,9 +1,8 @@
 package org.mycompany.service;
 
-import org.mycompany.dao.AppUserDAO;
+import org.mycompany.repository.AppUserRepository;
 import org.mycompany.entity.AppUser;
 import org.mycompany.service.security.Principal;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -11,16 +10,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class AppUserServiceImpl implements AppUserService {
 
-    @Autowired private AppUserDAO appUserDao;
+    private AppUserRepository appUserRepository;
+
+    public AppUserServiceImpl(AppUserRepository appUserRepository) {
+        this.appUserRepository = appUserRepository;
+    }
 
     @Override
     public AppUser find(long id) {
-        return appUserDao.find(id);
+        //todo: orElse
+        return appUserRepository.findById(id).orElse(null);
     }
 
     @Override
     public AppUser findByEmail(String email) {
-        return appUserDao.findByEmail(email);
+        //todo:
+        return appUserRepository.findByEmail(email);
     }
 
     @Override
@@ -33,7 +38,7 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public AppUser save(AppUser appUser) {
-        return appUserDao.save(appUser);
+        return appUserRepository.save(appUser);
     }
 
     @Override

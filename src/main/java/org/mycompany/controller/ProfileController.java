@@ -1,14 +1,9 @@
 package org.mycompany.controller;
 
 import org.mycompany.entity.AppUser;
-import org.mycompany.entity.Gender;
-import org.mycompany.entity.MaritalStatus;
-import org.mycompany.form.GeneralInfoForm;
 import org.mycompany.service.AppUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,15 +11,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDate;
-import java.util.stream.Stream;
-
 @Controller
 public class ProfileController {
     private static final String PROFILE_VIEW = "profile";
     private static final String EDIT_PROFILE_VIEW = "editProfile";
 
-    @Autowired private AppUserService appUserService;
+    private AppUserService appUserService;
+
+    public ProfileController(AppUserService appUserService) {
+        this.appUserService = appUserService;
+    }
 
     @GetMapping(value = {"/", "/profile/**"})
     public ModelAndView homePage() {

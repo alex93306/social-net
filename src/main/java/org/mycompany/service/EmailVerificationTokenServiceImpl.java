@@ -1,9 +1,8 @@
 package org.mycompany.service;
 
-import org.mycompany.dao.EmailVerificationTokenDAO;
+import org.mycompany.repository.EmailVerificationTokenRepository;
 import org.mycompany.entity.AppUser;
 import org.mycompany.entity.EmailVerificationToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,11 +11,15 @@ import java.util.UUID;
 @Service
 public class EmailVerificationTokenServiceImpl implements EmailVerificationTokenService {
 
-    @Autowired private EmailVerificationTokenDAO emailVerificationTokenDAO;
+    private EmailVerificationTokenRepository emailVerificationTokenRepository;
+
+    public EmailVerificationTokenServiceImpl(EmailVerificationTokenRepository emailVerificationTokenRepository) {
+        this.emailVerificationTokenRepository = emailVerificationTokenRepository;
+    }
 
     @Override
     public EmailVerificationToken findByToken(String token) {
-        return emailVerificationTokenDAO.findByToken(token);
+        return emailVerificationTokenRepository.findByToken(token);
     }
 
     @Override
@@ -32,7 +35,7 @@ public class EmailVerificationTokenServiceImpl implements EmailVerificationToken
         String token = UUID.randomUUID().toString();
         emailVerificationToken.setToken(token);
 
-        emailVerificationTokenDAO.save(emailVerificationToken);
+        emailVerificationTokenRepository.save(emailVerificationToken);
 
         return  emailVerificationToken;
     }
@@ -40,7 +43,7 @@ public class EmailVerificationTokenServiceImpl implements EmailVerificationToken
 
     @Override
     public void save(EmailVerificationToken emailVerificationToken) {
-        emailVerificationTokenDAO.save(emailVerificationToken);
+        emailVerificationTokenRepository.save(emailVerificationToken);
     }
 
 }
