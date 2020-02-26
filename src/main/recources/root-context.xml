@@ -46,7 +46,7 @@
         <property name="packagesToScan" value="org.mycompany.entity"/>
         <property name="jpaProperties">
             <props>
-                <!--<prop key="hibernate.hbm2ddl.auto">create</prop>-->
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</prop>
             </props>
         </property>

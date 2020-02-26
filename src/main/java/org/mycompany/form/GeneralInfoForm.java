@@ -7,6 +7,8 @@ public class GeneralInfoForm {
     private String gender;
     private String maritalStatus;
     private String birthday;
+    private String homeCity;
+    private String language;
 
     public String getFirstName() {
         return firstName;
@@ -54,5 +56,21 @@ public class GeneralInfoForm {
 
     public void setBirthday(String birthday) {
         this.birthday = birthday;
+    }
+
+    public String getHomeCity() {
+        return homeCity;
+    }
+
+    public void setHomeCity(String homeCity) {
+        this.homeCity = homeCity;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

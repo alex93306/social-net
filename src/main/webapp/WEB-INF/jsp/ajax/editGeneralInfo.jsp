@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--todo: investigate why?--%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <div class="tab-pane fade show active" id="list-general-item">
     <div class="card-header">
         Основное
@@ -14,48 +15,65 @@
                 </div>
             </c:if>
         </div>
-        <form:form action="/ajaxSaveGeneralInfo" method="post" modelAttribute="appUser" id="generalInfoForm">
+
+        <%--todo: model attribute--%>
+        <form:form action="/ajaxSaveGeneralInfo" method="post" modelAttribute="generalInfoForm">
             <div class="row form-group">
                 <label for="firstName" class="col-4 col-form-label text-right">Имя:</label>
                 <div class="col">
-                    <form:input path="firstName" cssClass="form-control" id="firstName"/>
+                    <form:input path="firstName" cssClass="form-control"/>
                 </div>
             </div>
             <div class="row form-group">
                 <label for="lastName" class="col-4 col-form-label text-right">Фамилия:</label>
                 <div class="col">
-                    <form:input path="lastName" cssClass="form-control" id="lastName"/>
+                    <form:input path="lastName" cssClass="form-control"/>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label for="maidenName" class="col-4 col-form-label text-right">Девичья фамилия:</label>
+                <div class="col">
+                    <form:input path="maidenName" cssClass="form-control"/>
                 </div>
             </div>
             <div class="row form-group">
                 <label for="gender" class="col-4 col-form-label text-right">Пол:</label>
                 <div class="col">
-                    <%--<select id="gender" name="gender" class="form-control">--%>
-                        <%--<option value="FEMALE">женский</option>--%>
-                        <%--<option value="MALE" selected>мужской</option>--%>
-                    <%--</select>--%>
+                    <form:select path="gender" cssClass="form-control">
+                        <%--todo список --%>
+                        <form:option value="FEMALE" label="женский"/>
+                        <form:option value="MALE" label="мужской"/>
+                    </form:select>
                 </div>
             </div>
             <div class="row form-group">
                 <label for="maritalStatus" class="col-4 col-form-label text-right">Семейное положение:</label>
                 <div class="col">
-                    <%--<select id="maritalStatus" name="maritalStatus" class="form-control">--%>
-                        <%--<option>Не выбрано</option>--%>
-                        <%--<!--todo зависимые поля-->--%>
-                        <%--<option value="MARRIED">Женат</option>--%>
-                        <%--<option value="SINGLE" selected>Не женат</option>--%>
-                    <%--</select>--%>
+                    <form:select path="maritalStatus" cssClass="form-control">
+                        <%--todo зависимые от пола--%>
+                        <%--todo список получение --%>
+                        <form:option value="SINGLE" label="неженат"/>
+                        <form:option value="MARRIED" label="женат"/>
+                    </form:select>
                 </div>
             </div>
             <div class="row form-group">
-                <label for="birthday" class="col-4 col-form-label text-right">День рождения::</label>
+                <label for="birthday" class="col-4 col-form-label text-right">День рождения:</label>
                 <div class="col">
-                    <%--<select id="day" name="day" class="form-control">--%>
-                        <%--<option>Не выбрано</option>--%>
-                        <%--<!--todo зависимые поля-->--%>
-                        <%--<option value="MARRIED">Женат</option>--%>
-                        <%--<option value="SINGLE" selected>Не женат</option>--%>
-                    <%--</select>--%>
+                    <%--todo: rename id and path--%>
+                    <form:input cssClass="form-control" path="birthday" type="date"/>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label for="homeCity" class="col-4 col-form-label text-right">Родной город:</label>
+                <div class="col">
+                    <form:input cssClass="form-control" path="homeCity"/>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label for="language" class="col-4 col-form-label text-right">Языки:</label>
+                <div class="col">
+                    <form:select path="language" cssClass="form-control" items="${languageOptions}" itemLabel="name" itemValue="id"/>
                 </div>
             </div>
             <hr/>
@@ -68,13 +86,6 @@
 </div>
 <script>
     $(function () {
-        $("a").on("click", function () {
-            var url = $(this).attr("href");
-            $.ajax(url).done(function (data) {
-                $('#nav-tabContent').html(data);
-            })
-        });
-
         var $form = $('#generalInfoForm');
         $form.submit(function (e) {
             e.preventDefault();

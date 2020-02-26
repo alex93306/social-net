@@ -1,4 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
@@ -17,20 +19,13 @@
 
 </head>
 <body class="bg-light">
-<nav class="navbar bg-primary">
-    <div class="container">
-        <a class="navbar-brand text-white" href="#">VK</a>
-    </div>
-</nav>
+
+<jsp:include page="includes/navbar.jsp"/>
+
 <div class="container">
     <div class="row mt-3">
         <div class="col-2">
-            <ul class="list-unstyled">
-                <li><a href="#">Моя страница</a></li>
-                <li><a href="#">Новости</a></li>
-                <li><a href="#">Сообщения</a></li>
-            </ul>
-
+            <jsp:include page="includes/navigation.jsp"/>
         </div>
         <div class="col-7">
             <div class="card">
@@ -52,6 +47,10 @@
                         <a class="list-group-item list-group-item-action" href="/ajaxEditContactsInfo" data-toggle="list">
                             Контакты
                         </a>
+                        <%--//todo: url context--%>
+                        <a class="list-group-item list-group-item-action" href="/ajaxEditContactsInfo" data-toggle="list">
+                            Интересы
+                        </a>
                     </div>
                 </div>
             </div>
@@ -72,12 +71,32 @@
             crossorigin="anonymous"></script>
     <script>
         $(function () {
-            $("a").on("click", function () {
+            $("#list-tab a").on("click", function () {
                 var url = $(this).attr("href");
-                $.ajax(url).done(function (data) {
-                    $('#nav-tabContent').html(data);
-                })
+                // $.ajax(url).done(function (data) {
+                //     $('#nav-tabContent').html(data);
+                // }).fail(function (event, jqXhr) {
+                //     //todo:
+                //     if (jqXhr.status === 401) {
+                //         window.location.href = '/login';
+                //     }
+                // });
+                $.ajax({
+                    url: url,
+                    success: function (data, status, jqXhr) {
+                        $('#nav-tabContent').html(data);
+                    },
+                    error: function (jqXhr) {
+                        //todo:
+                        if (jqXhr.status === 403) {
+                            window.location.href = '/login';
+                        }
+                    }
+                });
             });
+
+            // todo
+            $('#list-tab a:first-child').click();
         });
     </script>
 

@@ -2,6 +2,7 @@ package org.mycompany.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,17 +24,19 @@ public class AppUser {
     private String firstName;
     private String lastName;
     private String maidenName;
-//    private Gender gender;
-//    private MaritalStatus maritalStatus;
+    private Gender gender;
+    private MaritalStatus maritalStatus;
     private LocalDate birthDate;
     private String homeCity;
 
-//    @ManyToMany
-//    private List<Language> speakLanguages;
+    //todo:
+    @ManyToMany(fetch = FetchType.EAGER)
+//    todo
+    private List<Language> languages = new ArrayList<>();
 
+    // contacts
+    private String country;
     private String city;
-    private String education;
-    private String about;
 
     public Long getId() {
         return id;
@@ -91,21 +94,21 @@ public class AppUser {
         this.maidenName = maidenName;
     }
 
-//    public Gender getGender() {
-//        return gender;
-//    }
-//
-//    public void setGender(Gender gender) {
-//        this.gender = gender;
-//    }
-//
-//    public MaritalStatus getMaritalStatus() {
-//        return maritalStatus;
-//    }
-//
-//    public void setMaritalStatus(MaritalStatus maritalStatus) {
-//        this.maritalStatus = maritalStatus;
-//    }
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public MaritalStatus getMaritalStatus() {
+        return maritalStatus;
+    }
+
+    public void setMaritalStatus(MaritalStatus maritalStatus) {
+        this.maritalStatus = maritalStatus;
+    }
 
     public LocalDate getBirthDate() {
         return birthDate;
@@ -123,13 +126,21 @@ public class AppUser {
         this.homeCity = homeCity;
     }
 
-//    public List<Language> getSpeakLanguages() {
-//        return speakLanguages;
-//    }
-//
-//    public void setSpeakLanguages(List<Language> speakLanguages) {
-//        this.speakLanguages = speakLanguages;
-//    }
+    public List<Language> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(List<Language> languages) {
+        this.languages = languages;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
     public String getCity() {
         return city;
@@ -137,22 +148,6 @@ public class AppUser {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public String getEducation() {
-        return education;
-    }
-
-    public void setEducation(String education) {
-        this.education = education;
-    }
-
-    public String getAbout() {
-        return about;
-    }
-
-    public void setAbout(String about) {
-        this.about = about;
     }
 
     // custom getter/setter
