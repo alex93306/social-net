@@ -2,6 +2,8 @@ package org.mycompany.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NamedQueries({
@@ -21,11 +23,20 @@ public class AppUser {
 
     private String firstName;
     private String lastName;
-    private LocalDate birthDate;
+    private String maidenName;
     private Gender gender;
+    private MaritalStatus maritalStatus;
+    private LocalDate birthDate;
+    private String homeCity;
+
+    //todo:
+    @ManyToMany(fetch = FetchType.EAGER)
+//    todo
+    private List<Language> languages = new ArrayList<>();
+
+    // contacts
+    private String country;
     private String city;
-    private String education;
-    private String about;
 
     public Long getId() {
         return id;
@@ -51,6 +62,14 @@ public class AppUser {
         this.password = password;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -67,12 +86,12 @@ public class AppUser {
         this.lastName = lastName;
     }
 
-    public LocalDate getBirthDate() {
-        return birthDate;
+    public String getMaidenName() {
+        return maidenName;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
+    public void setMaidenName(String maidenName) {
+        this.maidenName = maidenName;
     }
 
     public Gender getGender() {
@@ -83,12 +102,44 @@ public class AppUser {
         this.gender = gender;
     }
 
-    public boolean isActive() {
-        return active;
+    public MaritalStatus getMaritalStatus() {
+        return maritalStatus;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setMaritalStatus(MaritalStatus maritalStatus) {
+        this.maritalStatus = maritalStatus;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getHomeCity() {
+        return homeCity;
+    }
+
+    public void setHomeCity(String homeCity) {
+        this.homeCity = homeCity;
+    }
+
+    public List<Language> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(List<Language> languages) {
+        this.languages = languages;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getCity() {
@@ -97,22 +148,6 @@ public class AppUser {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public String getEducation() {
-        return education;
-    }
-
-    public void setEducation(String education) {
-        this.education = education;
-    }
-
-    public void setAbout(String about) {
-        this.about = about;
-    }
-
-    public String getAbout() {
-        return about;
     }
 
     // custom getter/setter

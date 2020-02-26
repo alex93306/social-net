@@ -77,7 +77,7 @@ public class AppUserController {
         appUser.setFirstName(registerForm.getFirstName());
         appUser.setLastName(registerForm.getLastName());
         appUser.setBirthDate(registerForm.getBirthDate());
-        appUser.setGender(registerForm.getGender());
+//        appUser.setGender(registerForm.getGender());
 
         // User is inactive till he confirms email.
         appUser.setActive(false);

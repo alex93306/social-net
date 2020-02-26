@@ -6,8 +6,10 @@ import org.mycompany.service.security.Principal;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class AppUserServiceImpl implements AppUserService {
 
     private AppUserRepository appUserRepository;
@@ -38,6 +40,11 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public AppUser save(AppUser appUser) {
+        return appUserRepository.save(appUser);
+    }
+
+    @Override
+    public AppUser update(AppUser appUser) {
         return appUserRepository.save(appUser);
     }
 }

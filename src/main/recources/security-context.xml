@@ -5,7 +5,7 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
                                  http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security.xsd">
-    <http>
+    <http entry-point-ref="authEntryPoint">
         <intercept-url pattern="/login" access="permitAll()"/>
         <intercept-url pattern="/register" access="permitAll()"/>
         <intercept-url pattern="/confirmEmail/**" access="permitAll()"/>
@@ -26,4 +26,9 @@
             <password-encoder ref="passwordEncoder"/>
         </authentication-provider>
     </authentication-manager>
+
+    <beans:bean id="authEntryPoint" class="org.mycompany.controller.CustomLoginUrlAuthenticationEntryPoint">
+        <beans:constructor-arg value="/login"/>
+    </beans:bean>
+
 </beans:beans>

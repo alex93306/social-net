@@ -10,4 +10,6 @@ public interface AppUserService {
     AppUser getCurrentAppUser();
 
     AppUser save(AppUser appUser);
+
+    AppUser update(AppUser appUser);
 }
